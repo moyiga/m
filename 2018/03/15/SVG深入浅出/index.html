@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+  
+  <title itemprop="name">SVG深入浅出 | Moyi.ga(魔艺.咖)</title>
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  <meta http-equiv="x-dns-prefetch-control" content="on">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+SerifMerriweather|Merriweather+Sans|Source+Code+Pro|Ubuntu:400,700|Noto+Serif+SC" media="all">
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+  <link rel="stylesheet" id="saukra_css-css" href="/css/style.css" type="text/css" media="all">
+  <link rel="stylesheet" href="/css/lib.min.css" media="all">
+  <link rel="stylesheet" href="/css/font.css" media="all">
+  <link rel="stylesheet" href="/css/insight.css" media="all">
+  <link rel="stylesheet" href="/css/jquery.fancybox.min.css" media="all">
+  <link rel="stylesheet" href="/css/zoom.css" media="all">
+  <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<!--   <link rel="stylesheet" id="saukra_css-css" href="https://2heng.xin/wp-content/cache/autoptimize/css/autoptimize_ad42a61f4c7d4bdd9f91afcff6b5dda5.css
+" type="text/css" media="all"> -->
+  <script>
+  /*Initial Variables*/
+  var mashiro_option = new Object();
+  var mashiro_global = new Object();
+  mashiro_option.NProgressON = true;
+  /* 
+   * 邮箱信息之类的东西可以填在这里，这些js变量基本都作用于sakura-app.js
+   * 这样的设置仅是为了方便在基于PHP开发的主题中设置js变量，既然移植到了Node上，我想或许可以精简这一逻辑吧
+   */
+  mashiro_option.email_domain = "";
+  mashiro_option.email_name = "";
+  mashiro_option.cookie_version_control = "";
+  mashiro_option.qzone_autocomplete = false;
+  mashiro_option.site_name = "Moyi.ga(魔艺.咖)Moyi.ga";
+  mashiro_option.author_name = "Moyi.ga";
+  mashiro_option.site_url = "https://moruan.gq";
+  mashiro_option.v_appId = "GyC3NzMvd0hT9Yyd2hYIC0MN-gzGzoHsz";
+  mashiro_option.v_appKey = "mgOpfzbkHYqU92CV4IDlAUHQ";
+  mashiro_option.mathjax = "0";
+  mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
+  mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
+
+  // mashiro_option.jsdelivr_css_src = "https://cdn.jsdelivr.net/gh/moezx/cdn@3.4.5/css/lib.min.css";
+  // mashiro_option.float_player_on = true;
+
+  /*End of Initial Variables*/
+  </script>
+  <script type="text/javascript">
+  var bg = "https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(1).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(2).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(3).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(4).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(5).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(6).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(7).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(8).jpg.webp".split(",");
+  var bgindex = Math.floor(Math.random()*bg.length);
+  if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
+    alert('朋友，IE浏览器未适配哦~');
+  }
+  </script>
+  <style type="text/css">
+  .hljs-ln{border-collapse:collapse}.hljs-ln td{padding:0}.hljs-ln-n:before{content:attr(data-line-number)}
+  </style>
+  <style type="text/css">.site-top .lower nav{display:block !important;}.author-profile i,.post-like a,.post-share .show-share,.sub-text,.we-info a,span.sitename,.post-more i:hover,#pagination a:hover,.post-content a:hover,.float-content i:hover{color:#FE9600}.feature i,.download,.navigator i:hover,.links ul li:before,.ar-time i,span.ar-circle,.object,.comment .comment-reply-link,.siren-checkbox-radio:checked + .siren-checkbox-radioInput:after{background:#FE9600}::-webkit-scrollbar-thumb{background:#FE9600}.download,.navigator i:hover,.link-title,.links ul li:hover,#pagination a:hover,.comment-respond input[type='submit']:hover{border-color:#FE9600}.entry-content a:hover,.site-info a:hover,.comment h4 a,#comments-navi a.prev,#comments-navi a.next,.comment h4 a:hover,.site-top ul li a:hover,.entry-title a:hover,#archives-temp h3,span.page-numbers.current,.sorry li a:hover,.site-title a:hover,i.iconfont.js-toggle-search.iconsearch:hover,.comment-respond input[type='submit']:hover{color:#FE9600}.comments .comments-main{display:block !important;}.comments .comments-hidden{display:none !important;}background-position:center center;background-attachment:inherit;}
+  </style>
+</head>
+</html>
+<body class="page-template page-template-user page-template-page-analytics page-template-userpage-analytics-php page page-id-1297 chinese-font serif isWebKit">
+  <div class="scrollbar" id="bar">
+  </div>
+  <a href="#" class="cd-top faa-float animated"></a>
+  <section id="main-container">
+    <div class="headertop filter-dot">
+  <div id="banner_wave_1"></div>
+  <div id="banner_wave_2"></div>
+  <figure id="centerbg" class="centerbg">
+    <div class="focusinfo no-select">
+      <div class="header-tou">
+        <a href="https://moruan.gq">
+          <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/custom/avatar.jpg">
+        </a>
+      </div>
+      <div class="header-info">
+        <p>本站资源均收集整理于互联网，其著作权归原作者所有</p>
+        <div class="top-social_v2">
+          <li id="bg-pre">
+            <img class="flipx" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+          
+            
+              
+                <li>
+                  <a href="http://qr02.cn/BHKrgz" target="_blank" class="social-github" title="github">
+                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/social/github.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://weibo.com/bznd" target="_blank" class="social-github" title="sina">
+                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/social/sina.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://music.163.com/#/discover/toplist?id=3778678" target="_blank" class="social-github" title="wangyiyun">
+                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/social/wangyiyun.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://zhuanlan.zhihu.com/p/24763104" target="_blank" class="social-github" title="zhihu">
+                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/social/zhihu.png">
+                  </a>
+                </li>
+              
+            
+              
+                <li>
+                  <a href="https://www.jianshu.com/p/9ad46448c8eb" target="_blank" class="social-github" title="email">
+                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/social/email.svg">
+                  </a>
+                </li>
+              
+            
+              
+                <li class="wechat">
+                  <a href="/#">
+                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/social/wechat.png">
+                  </a>
+                  <div class="wechatInner">
+                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/custom/wechat.jpg">
+                  </div>
+                </li>
+              
+            
+          
+          <li id="bg-next">
+            <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
+          </li>
+        </div>
+      </div>
+    </div>
+  </figure>
+  <div id="video-container" style="">
+    <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
+    </video>
+    <div id="video-btn" class="loadvideo videolive">
+    </div>
+    <div id="video-add">
+    </div>
+    <div class="video-stu">
+    </div>
+  </div>
+  <div class="headertop-down faa-float animated" onclick="headertop_down()">
+    <span>
+      <i class="fa fa-chevron-down" aria-hidden="true">
+      </i>
+    </span>
+  </div>
+</div>
+    <div id="page" class="site wrapper">
+      <header class="site-header no-select gizle sabit" role="banner">
+  <div class="site-top">
+    <div class="site-branding">
+      <span class="site-title">
+        <span class="logolink moe-mashiro">
+          <a href="/">
+            <span class="sakurasono">Moyi.ga(魔艺.咖)</span>
+            <span class="shironeko">Moyi.ga</span>
+          </a>
+        </span>
+      </span>
+    </div>
+    <div class="searchbox search-form-submit">
+      <i class="iconfont js-toggle-search iconsearch icon-search">
+      </i>
+    </div>
+    <div id="show-nav" class="showNav mobile-fit">
+      <div class="line line1">
+      </div>
+      <div class="line line2">
+      </div>
+      <div class="line line3">
+      </div>
+    </div>
+    <div class="lower-cantiner">
+      <div class="lower">
+        <nav class="mobile-fit-control hide">
+          <ul id="menu-new" class="menu">
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+                    首页
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/archives">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+                    归档
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/categories/技术/">
+                          <i class="fa fa-code" aria-hidden="true"></i>
+                          技术
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/生活/">
+                          <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                          生活
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/资源/">
+                          <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                          资源
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/随想/">
+                          <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                          随想
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/categories/转载/">
+                          <i class="fa fa-book" aria-hidden="true"></i>
+                          转载
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="javascript:;">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+                    娱乐
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/tags/悦读/">
+                          <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                          影音
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/bangumi/">
+                          <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                          图文
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/music/">
+                          <i class="fa fa-headphones" aria-hidden="true"></i>
+                          消遣
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/tags/图集/">
+                          <i class="fa fa-photo" aria-hidden="true"></i>
+                          游戏
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/comment/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+                    留言板
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/links/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+                    友人帐
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/donate/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+                    赞赏
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+                    关于
+                  </span>
+                </a>
+                
+                  <ul class="sub-menu">
+                    
+                      <li>
+                        <a href="/about/">
+                          <i class="fa fa-meetup" aria-hidden="true"></i>
+                          我？
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/theme-sakura/">
+                          <i class="fa iconfont icon-sakura" aria-hidden="true"></i>
+                          主题
+                        </a>
+                      </li>
+                    
+                      <li>
+                        <a href="/lab/">
+                          <i class="fa fa-cogs" aria-hidden="true"></i>
+                          Lab
+                        </a>
+                      </li>
+                    
+                  </ul>
+                
+              </li>
+            
+              <li>
+                <a href="/client/">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+                    客户端
+                  </span>
+                </a>
+                
+              </li>
+            
+              <li>
+                <a href="/atom.xml">
+                  <span class="faa-parent animated-hover">
+                    <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+                    RSS
+                  </span>
+                </a>
+                
+              </li>
+            
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
+<div class="pattern-center-blank"></div>
+
+<div id="content" class="site-content">
+  <div id="primary" class="content-area">
+    <main id="main" class="site-main" role="main">
+      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
+        <div class="toc"></div>
+        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
+        
+          <header class="entry-header">
+            <h1 class="entry-title">SVG深入浅出</h1>
+            <p class="entry-census">hojun&nbsp;·&nbsp;2018-3-15&nbsp;·&nbsp;<span id="busuanzi_value_page_pv"></span>次阅读</p></p>
+
+            <hr>
+          </header>
+        
+        <div class="entry-content">
+          <h2 id="什么是SVG？"><a href="#什么是SVG？" class="headerlink" title="什么是SVG？"></a><strong>什么是SVG？</strong></h2><ul>
+<li>SVG 指可伸缩矢量图形 (Scalable Vector Graphics)</li>
+<li>SVG 用来定义用于网络的基于矢量的图形</li>
+<li>SVG 使用 XML 格式定义图形</li>
+<li>SVG 图像在放大或改变尺寸的情况下其图形质量不会有所损失</li>
+<li>SVG 是万维网联盟的标准</li>
+<li>SVG 与诸如 DOM 和 XSL 之类的 W3C 标准是一个整体</li>
+</ul>
+<h2 id="SVG-的历史和优势"><a href="#SVG-的历史和优势" class="headerlink" title="SVG 的历史和优势"></a><strong>SVG 的历史和优势</strong></h2><p>在 2003 年一月，SVG 1.1 被确立为 W3C 标准。<br>参与定义 SVG 的组织有：太阳微系统、Adobe、苹果公司、IBM 以及柯达。<br>与其他图像格式相比，使用 SVG 的优势在于：</p>
+<ul>
+<li>SVG 可被非常多的工具读取和修改（比如记事本）</li>
+<li>SVG 与 JPEG 和 GIF 图像比起来，尺寸更小，且可压缩性更强。</li>
+<li>SVG 是可伸缩的</li>
+<li>SVG 图像可在任何的分辨率下被高质量地打印</li>
+<li>SVG 可在图像质量不下降的情况下被放大</li>
+<li>SVG 图像中的文本是可选的，同时也是可搜索的（很适合制作地图）</li>
+<li>SVG 可以与 Java 技术一起运行</li>
+<li>SVG 是开放的标准</li>
+<li>SVG 文件是纯粹的 XML</li>
+<li>SVG 的主要竞争者是 Flash。</li>
+</ul>
+<p>与 Flash 相比，SVG 最大的优势是与其他标准（比如 XSL 和 DOM）相兼容。而 Flash 则是未开源的私有技术。</p>
+<h2 id="SVG-实例"><a href="#SVG-实例" class="headerlink" title="SVG 实例"></a><strong>SVG 实例</strong></h2><p>下面的例子是一个简单的 SVG 文件的例子。SVG 文件必须使用 .svg 后缀来保存：</p>
+<pre><code class="html">&lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot;?&gt;
+
+&lt;!DOCTYPE svg PUBLIC &quot;-//W3C//DTD SVG 1.1//EN&quot; 
+&quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;&gt;
+
+&lt;svg width=&quot;100%&quot; height=&quot;100%&quot; version=&quot;1.1&quot;
+xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+
+&lt;circle cx=&quot;100&quot; cy=&quot;50&quot; r=&quot;40&quot; stroke=&quot;black&quot;
+stroke-width=&quot;2&quot; fill=&quot;red&quot;/&gt;
+
+&lt;/svg&gt;
+</code></pre>
+<p>代码解释：<br>第一行包含了 XML 声明。请注意 standalone 属性！该属性规定此 SVG 文件是否是“独立的”，或含有对外部文件的引用。</p>
+<p>standalone=”no” 意味着 SVG 文档会引用一个外部文件 - 在这里，是 DTD 文件。</p>
+<p>第二和第三行引用了这个外部的 SVG DTD。该 DTD 位于 “<a href="http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd”。该" target="_blank" rel="noopener">http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd”。该</a> DTD 位于 W3C，含有所有允许的 SVG 元素。</p>
+<p>SVG 代码以 <code>&lt;svg&gt;</code> 元素开始，包括开启标签 <code>&lt;svg&gt;</code> 和关闭标签 <code>&lt;/svg&gt;</code> 。这是根元素。width 和 height 属性可设置此 SVG 文档的宽度和高度。version 属性可定义所使用的 SVG 版本，xmlns 属性可定义 SVG 命名空间。</p>
+<p>SVG 的 <code>&lt;circle&gt;</code> 用来创建一个圆。cx 和 cy 属性定义圆中心的 x 和 y 坐标。如果忽略这两个属性，那么圆点会被设置为 (0, 0)。r 属性定义圆的半径。</p>
+<p>stroke 和 stroke-width 属性控制如何显示形状的轮廓。我们把圆的轮廓设置为 2px 宽，黑边框。</p>
+<p>fill 属性设置形状内的颜色。我们把填充颜色设置为红色。</p>
+<p>关闭标签的作用是关闭 SVG 元素和文档本身。</p>
+<h2 id="SVG-形状"><a href="#SVG-形状" class="headerlink" title="SVG 形状"></a><strong>SVG 形状</strong></h2><p>SVG 有一些预定义的形状元素，可被开发者使用和操作：</p>
+<ul>
+<li>矩形 <code>&lt;rect&gt;</code></li>
+<li>圆形 <code>&lt;circle&gt;</code></li>
+<li>椭圆 <code>&lt;ellipse&gt;</code></li>
+<li>线 <code>&lt;line&gt;</code></li>
+<li>折线 <code>&lt;polyline&gt;</code></li>
+<li>多边形 <code>&lt;polygon&gt;</code></li>
+<li>路径 <code>&lt;path&gt;</code></li>
+</ul>
+<h3 id="rect例子"><a href="#rect例子" class="headerlink" title="rect例子"></a>rect例子</h3><pre><code>&lt;svg width=&quot;100%&quot; height=&quot;100%&quot; version=&quot;1.1&quot;
+xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+    &lt;rect width=&quot;300&quot; height=&quot;100&quot;
+    style=&quot;fill:rgb(0,0,255);stroke-width:1;
+    stroke:rgb(0,0,0)&quot;/&gt;
+&lt;/svg&gt;
+代码解释：
+rect 元素的 width 和 height 属性可定义矩形的高度和宽度
+style 属性用来定义 CSS 属性
+CSS 的 fill 属性定义矩形的填充颜色（rgb 值、颜色名或者十六进制值）
+CSS 的 stroke-width 属性定义矩形边框的宽度
+CSS 的 stroke 属性定义矩形边框的颜色
+</code></pre><p>CSS 的 fill 属性定义矩形的填充颜色（rgb 值、颜色名或者十六进制值）<br>CSS 的 stroke-width 属性定义矩形边框的宽度<br>CSS 的 stroke 属性定义矩形边框的颜色</p>
+<p>CSS 的 fill-opacity 属性定义填充颜色透明度（合法的范围是：0 - 1）<br>CSS 的 stroke-opacity 属性定义笔触颜色的透明度（合法的范围是：0 - 1）</p>
+<p>让我们看一下另一个包含新属性的例子：</p>
+<pre><code class="html">&lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot;?&gt;
+&lt;!DOCTYPE svg PUBLIC &quot;-//W3C//DTD SVG 1.1//EN&quot; 
+&quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;&gt;
+
+&lt;svg width=&quot;100%&quot; height=&quot;100%&quot; version=&quot;1.1&quot;
+xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+
+&lt;rect x=&quot;20&quot; y=&quot;20&quot; width=&quot;250&quot; height=&quot;250&quot;
+style=&quot;fill:blue;stroke:pink;stroke-width:5;
+fill-opacity:0.1;stroke-opacity:0.9&quot;/&gt;
+
+&lt;/svg&gt;
+</code></pre>
+<p>例子解释：<br>x 属性定义矩形的左侧位置（例如，x=”0” 定义矩形到浏览器窗口左侧的距离是 0px）<br>y 属性定义矩形的顶端位置（例如，y=”0” 定义矩形到浏览器窗口顶端的距离是 0px）<br>CSS 的 fill-opacity 属性定义填充颜色透明度（合法的范围是：0 - 1）<br>CSS 的 stroke-opacity 属性定义笔触颜色的透明度（合法的范围是：0 - 1）<br>rx 和 ry 属性可使矩形产生圆角。</p>
+<h3 id="lt-circle-gt-标签"><a href="#lt-circle-gt-标签" class="headerlink" title="&lt;circle&gt; 标签"></a><code>&lt;circle&gt;</code> 标签</h3><p><code>&lt;circle&gt;</code> 标签可用来创建一个圆。</p>
+<p>请把下面的代码拷贝到记事本，然后把文件保存为 “circle1.svg”。把此文件放入您的web目录：</p>
+<pre><code class="html">&lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot;?&gt;
+&lt;!DOCTYPE svg PUBLIC &quot;-//W3C//DTD SVG 1.1//EN&quot; 
+&quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;&gt;
+
+&lt;svg width=&quot;100%&quot; height=&quot;100%&quot; version=&quot;1.1&quot;
+xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+
+&lt;circle cx=&quot;100&quot; cy=&quot;50&quot; r=&quot;40&quot; stroke=&quot;black&quot;
+stroke-width=&quot;2&quot; fill=&quot;red&quot;/&gt;
+
+&lt;/svg&gt;
+</code></pre>
+<p>代码解释：<br>cx 和 cy 属性定义圆点的 x 和 y 坐标。如果省略 cx 和 cy，圆的中心会被设置为 (0, 0)<br>r 属性定义圆的半径。</p>
+<h3 id="lt-ellipse-gt-标签"><a href="#lt-ellipse-gt-标签" class="headerlink" title="&lt;ellipse&gt; 标签"></a><code>&lt;ellipse&gt;</code> 标签</h3><p><code>&lt;ellipse&gt;</code> 标签可用来创建椭圆。椭圆与圆很相似。不同之处在于椭圆有不同的 x 和 y 半径，而圆的 x 和 y 半径是相同的。</p>
+<p>请把下面的代码拷贝到记事本，然后把文件保存为 “ellipse1.svg”。把此文件放入您的 web 目录：</p>
+<pre><code class="html">&lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot;?&gt;
+&lt;!DOCTYPE svg PUBLIC &quot;-//W3C//DTD SVG 1.1//EN&quot; 
+&quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;&gt;
+
+&lt;svg width=&quot;100%&quot; height=&quot;100%&quot; version=&quot;1.1&quot;
+xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+
+&lt;ellipse cx=&quot;300&quot; cy=&quot;150&quot; rx=&quot;200&quot; ry=&quot;80&quot;
+style=&quot;fill:rgb(200,100,50);
+stroke:rgb(0,0,100);stroke-width:2&quot;/&gt;
+
+&lt;/svg&gt;
+</code></pre>
+<p>代码解释：<br>cx 属性定义圆点的 x 坐标<br>cy 属性定义圆点的 y 坐标<br>rx 属性定义水平半径<br>ry 属性定义垂直半径</p>
+<h3 id="lt-line-gt-标签"><a href="#lt-line-gt-标签" class="headerlink" title="&lt;line&gt; 标签"></a><code>&lt;line&gt;</code> 标签</h3><p><code>&lt;line&gt;</code> 标签用来创建线条。</p>
+<p>请把下面的代码拷贝到记事本，然后把文件保存为 “line1.svg”。把此文件放入您的 web 目录：</p>
+<pre><code class="html">&lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot;?&gt;
+&lt;!DOCTYPE svg PUBLIC &quot;-//W3C//DTD SVG 1.1//EN&quot; 
+&quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;&gt;
+
+&lt;svg width=&quot;100%&quot; height=&quot;100%&quot; version=&quot;1.1&quot;
+xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+
+&lt;line x1=&quot;0&quot; y1=&quot;0&quot; x2=&quot;300&quot; y2=&quot;300&quot;
+style=&quot;stroke:rgb(99,99,99);stroke-width:2&quot;/&gt;
+
+&lt;/svg&gt;
+</code></pre>
+<p>代码解释：<br>x1 属性在 x 轴定义线条的开始<br>y1 属性在 y 轴定义线条的开始<br>x2 属性在 x 轴定义线条的结束<br>y2 属性在 y 轴定义线条的结束</p>
+<h3 id="lt-polygon-gt-标签"><a href="#lt-polygon-gt-标签" class="headerlink" title="&lt;polygon&gt; 标签"></a><code>&lt;polygon&gt;</code> 标签</h3><p><code>&lt;polygon&gt;</code> 标签用来创建含有不少于三个边的图形。</p>
+<p>请把下面的代码拷贝到记事本，然后把文件保存为 “polygon1.svg”。把此文件放入您的 web 目录：</p>
+<pre><code class="html">&lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot;?&gt;
+&lt;!DOCTYPE svg PUBLIC &quot;-//W3C//DTD SVG 1.1//EN&quot; 
+&quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;&gt;
+
+&lt;svg width=&quot;100%&quot; height=&quot;100%&quot; version=&quot;1.1&quot;
+xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+
+&lt;polygon points=&quot;220,100 300,210 170,250&quot;
+style=&quot;fill:#cccccc;
+stroke:#000000;stroke-width:1&quot;/&gt;
+
+&lt;/svg&gt;
+</code></pre>
+<p>代码解释：<br>points 属性定义多边形每个角的 x 和 y 坐标</p>
+<h3 id="lt-polyline-gt-标签"><a href="#lt-polyline-gt-标签" class="headerlink" title="&lt;polyline&gt; 标签"></a><code>&lt;polyline&gt;</code> 标签</h3><p><code>&lt;polyline&gt;</code> 标签用来创建仅包含直线的形状。</p>
+<p>请把下面的代码拷贝到记事本，然后把文件保存为 “polyline1.svg”。把此文件放入您的 web 目录：</p>
+<pre><code class="html">&lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot;?&gt;
+&lt;!DOCTYPE svg PUBLIC &quot;-//W3C//DTD SVG 1.1//EN&quot; 
+&quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;&gt;
+
+&lt;svg width=&quot;100%&quot; height=&quot;100%&quot; version=&quot;1.1&quot;
+xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+
+&lt;polyline points=&quot;0,0 0,20 20,20 20,40 40,40 40,60&quot;
+style=&quot;fill:white;stroke:red;stroke-width:2&quot;/&gt;
+
+&lt;/svg&gt;
+</code></pre>
+<h3 id="lt-path-gt-标签"><a href="#lt-path-gt-标签" class="headerlink" title="&lt;path&gt; 标签"></a><code>&lt;path&gt;</code> 标签</h3><p><code>&lt;path&gt;</code> 标签用来定义路径。</p>
+<p>下面的命令可用于路径数据：</p>
+<ul>
+<li>M moveto  移动到 (x y)+</li>
+<li>Z closepath  关闭路径 (none)</li>
+<li>L lineto  画线到 (x y)+</li>
+<li>H horizontal lineto  水平线到 x+</li>
+<li>V vertical lineto  垂直线到 y+</li>
+<li>C curveto  三次贝塞尔曲线到 (x1 y1 x2 y2 x y)+</li>
+<li>S smooth curveto  光滑三次贝塞尔曲线到  (x2 y2 x y)+</li>
+<li>Q quadratic Bézier curveto  二次贝塞尔曲线到  (x1 y1 x y)+</li>
+<li>T smooth quadratic Bézier curveto  光滑二次贝塞尔曲线到 (x y)+</li>
+<li>A elliptical arc  椭圆弧 (rx ry x-axis-rotation large-arc-flag sweep-flag x y)+</li>
+<li>R Catmull-Rom curveto*  Catmull-Rom曲线 x1 y1 (x y)+</li>
+</ul>
+<p>请把下面的代码拷贝到记事本，然后把文件保存为 “path1.svg”。把此文件放入您的 web 目录：</p>
+<pre><code class="html">&lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot;?&gt;
+&lt;!DOCTYPE svg PUBLIC &quot;-//W3C//DTD SVG 1.1//EN&quot; 
+&quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;&gt;
+
+&lt;svg width=&quot;100%&quot; height=&quot;100%&quot; version=&quot;1.1&quot;
+xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+
+&lt;path d=&quot;M250 150 L150 350 L350 350 Z&quot; /&gt;
+
+&lt;/svg&gt;
+</code></pre>
+<p>上面的例子定义了一条路径，它开始于位置 250 150，到达位置 150 350，然后从那里开始到 350 350，最后在 250 150 关闭路径。</p>
+<h3 id="SVG-滤镜"><a href="#SVG-滤镜" class="headerlink" title="SVG 滤镜"></a>SVG 滤镜</h3><p>在 SVG 中，可用的滤镜有：</p>
+<ul>
+<li>feBlend</li>
+<li>feColorMatrix</li>
+<li>feComponentTransfer</li>
+<li>feComposite</li>
+<li>feConvolveMatrix</li>
+<li>feDiffuseLighting</li>
+<li>feDisplacementMap</li>
+<li>feFlood</li>
+<li>feGaussianBlur</li>
+<li>feImage</li>
+<li>feMerge</li>
+<li>feMorphology</li>
+<li>feOffset</li>
+<li>feSpecularLighting</li>
+<li>feTile</li>
+<li>feTurbulence</li>
+<li>feDistantLight</li>
+<li>fePointLight</li>
+<li>feSpotLight</li>
+</ul>
+<p><strong>必须在 <code>&lt;defs&gt;</code> 标签中定义 SVG 滤镜。</strong></p>
+<h3 id="高斯模糊（Gaussian-Blur）"><a href="#高斯模糊（Gaussian-Blur）" class="headerlink" title="高斯模糊（Gaussian Blur）"></a>高斯模糊（Gaussian Blur）</h3><p><code>&lt;filter&gt;</code> 标签用来定义 SVG 滤镜。<code>&lt;filter&gt;</code> 标签使用必需的 id 属性来定义向图形应用哪个滤镜？</p>
+<p><code>&lt;filter&gt;</code> 标签必须嵌套在 <code>&lt;defs&gt;</code> 标签内。<code>&lt;defs&gt;</code> 标签是 definitions 的缩写，它允许对诸如滤镜等特殊元素进行定义。</p>
+<p>请把下面的代码拷贝到记事本，然后把文件保存为 “filter1.svg”。把此文件放入您的 web 目录：</p>
+<pre><code class="html">&lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot;?&gt;
+&lt;!DOCTYPE svg PUBLIC &quot;-//W3C//DTD SVG 1.1//EN&quot; 
+&quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;&gt;
+
+&lt;svg width=&quot;100%&quot; height=&quot;100%&quot; version=&quot;1.1&quot;
+xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+
+&lt;defs&gt;
+&lt;filter id=&quot;Gaussian_Blur&quot;&gt;
+&lt;feGaussianBlur in=&quot;SourceGraphic&quot; stdDeviation=&quot;3&quot; /&gt;
+&lt;/filter&gt;
+&lt;/defs&gt;
+
+&lt;ellipse cx=&quot;200&quot; cy=&quot;150&quot; rx=&quot;70&quot; ry=&quot;40&quot;
+style=&quot;fill:#ff0000;stroke:#000000;
+stroke-width:2;filter:url(#Gaussian_Blur)&quot;/&gt;
+
+&lt;/svg&gt;
+</code></pre>
+<p>代码解释：<br><code>&lt;filter&gt;</code> 标签的 id 属性可为滤镜定义一个唯一的名称（同一滤镜可被文档中的多个元素使用）<br>filter:url 属性用来把元素链接到滤镜。当链接滤镜 id 时，必须使用 # 字符<br>滤镜效果是通过 <code>&lt;feGaussianBlur&gt;</code> 标签进行定义的。fe 后缀可用于所有的滤镜<br><code>&lt;feGaussianBlur&gt;</code> 标签的 stdDeviation 属性可定义模糊的程度<br>in=”SourceGraphic” 这个部分定义了由整个图像创建效果</p>
+<p><strong>SVG 渐变必须在 <defs> 标签中进行定义。</defs></strong></p>
+<h3 id="SVG-渐变"><a href="#SVG-渐变" class="headerlink" title="SVG 渐变"></a>SVG 渐变</h3><p>渐变是一种从一种颜色到另一种颜色的平滑过渡。另外，可以把多个颜色的过渡应用到同一个元素上。</p>
+<p>在 SVG 中，有两种主要的渐变类型：</p>
+<ul>
+<li>线性渐变</li>
+<li>放射性渐变</li>
+<li>线性渐变</li>
+</ul>
+<p><code>&lt;linearGradient&gt;</code> 可用来定义 SVG 的线性渐变。</p>
+<p><code>&lt;linearGradient&gt;</code> 标签必须嵌套在 <code>&lt;defs&gt;</code> 的内部。<code>&lt;defs&gt;</code> 标签是 definitions 的缩写，它可对诸如渐变之类的特殊元素进行定义。</p>
+<p>线性渐变可被定义为水平、垂直或角形的渐变：</p>
+<p>当 y1 和 y2 相等，而 x1 和 x2 不同时，可创建水平渐变<br>当 x1 和 x2 相等，而 y1 和 y2 不同时，可创建垂直渐变<br>当 x1 和 x2 不同，且 y1 和 y2 不同时，可创建角形渐变<br>请把下面的代码拷贝到记事本，然后把文件保存为 “linear1.svg”。把此文件放入您的 web 目录：</p>
+<pre><code class="html">&lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot;?&gt;
+&lt;!DOCTYPE svg PUBLIC &quot;-//W3C//DTD SVG 1.1//EN&quot; 
+&quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;&gt;
+
+&lt;svg width=&quot;100%&quot; height=&quot;100%&quot; version=&quot;1.1&quot;
+xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+
+&lt;defs&gt;
+&lt;linearGradient id=&quot;orange_red&quot; x1=&quot;0%&quot; y1=&quot;0%&quot; x2=&quot;100%&quot; y2=&quot;0%&quot;&gt;
+&lt;stop offset=&quot;0%&quot; style=&quot;stop-color:rgb(255,255,0);
+stop-opacity:1&quot;/&gt;
+&lt;stop offset=&quot;100%&quot; style=&quot;stop-color:rgb(255,0,0);
+stop-opacity:1&quot;/&gt;
+&lt;/linearGradient&gt;
+&lt;/defs&gt;
+
+&lt;ellipse cx=&quot;200&quot; cy=&quot;190&quot; rx=&quot;85&quot; ry=&quot;55&quot;
+style=&quot;fill:url(#orange_red)&quot;/&gt;
+
+&lt;/svg&gt;
+</code></pre>
+<p>代码解释：<br><code>&lt;linearGradient&gt;</code> 标签的 id 属性可为渐变定义一个唯一的名称<br>fill:url(#orange_red) 属性把 ellipse 元素链接到此渐变<br><code>&lt;linearGradient&gt;</code> 标签的 x1、x2、y1、y2 属性可定义渐变的开始和结束位置<br>渐变的颜色范围可由两种或多种颜色组成。每种颜色通过一个 <code>&lt;stop&gt;</code> 标签来规定。offset 属性用来定义渐变的开始和结束位置。<br>（水平渐变）</p>
+<p>另一个例子：</p>
+<pre><code class="html">&lt;?xml version=&quot;1.0&quot; standalone=&quot;no&quot;?&gt;
+&lt;!DOCTYPE svg PUBLIC &quot;-//W3C//DTD SVG 1.1//EN&quot; 
+&quot;http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd&quot;&gt;
+
+&lt;svg width=&quot;100%&quot; height=&quot;100%&quot; version=&quot;1.1&quot;
+xmlns=&quot;http://www.w3.org/2000/svg&quot;&gt;
+
+&lt;defs&gt;
+&lt;linearGradient id=&quot;orange_red&quot; x1=&quot;0%&quot; y1=&quot;0%&quot; x2=&quot;0%&quot; y2=&quot;100%&quot;&gt;
+&lt;stop offset=&quot;0%&quot; style=&quot;stop-color:rgb(255,255,0);
+stop-opacity:1&quot;/&gt;
+&lt;stop offset=&quot;100%&quot; style=&quot;stop-color:rgb(255,0,0);
+stop-opacity:1&quot;/&gt;
+&lt;/linearGradient&gt;
+&lt;/defs&gt;
+
+&lt;ellipse cx=&quot;200&quot; cy=&quot;190&quot; rx=&quot;85&quot; ry=&quot;55&quot;
+style=&quot;fill:url(#orange_red)&quot;/&gt;
+
+&lt;/svg&gt;
+</code></pre>
+<p>（垂直渐变）</p>
+<h2 id="参考手册"><a href="#参考手册" class="headerlink" title="参考手册"></a>参考手册</h2><p><img src="https://wx3.sinaimg.cn/large/006bYVyvgy1fpdse0807rj30kv6mtk6g.jpg" alt></p>
+
+        </div>
+        <!-- .entry-content -->
+        <div class="single-reward">
+          <div class="reward-open">赏<div class="reward-main">
+              <ul class="reward-row">
+                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/custom/donate/AliPayQR.jpg"></li>
+                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/custom/donate/WeChanQR.jpg"></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
+        <footer class="post-footer">
+          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
+          <div class="post-tags">
+          </div>
+          <div class="post-share">
+            <div class="social-share sharehidden share-component"></div>
+            <i class="iconfont show-share icon-forward"></i>
+          </div>
+        </footer><!-- .entry-footer -->
+      </article>
+      <!-- #post-## -->
+      <div class="toc" style="background: none;"></div>
+      <section class="post-squares nextprev">
+        
+          
+            <div class="post-nepre half previous">
+          
+            <a href="/2018/03/24/Win10小技巧之创建不可删除文件夹，还能保护隐私哦/" rel="prev">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="http://wx4.sinaimg.cn/large/006bYVyvgy1fpo5wapk60j30dw08oglj.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="http://wx4.sinaimg.cn/large/006bYVyvgy1fpo5wapk60j30dw08oglj.jpg">
+              </div>
+              <span class="label">
+              Previous Post</span>
+              <div class="info">
+                <h3>
+                Win10小技巧之创建不可删除文件夹，还能保护隐私哦~</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+        
+          
+            <div class="post-nepre half next">
+          
+            <a href="/2018/03/14/anime-js实现logo动画/" rel="next">
+              <div class="background">
+                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://wx4.sinaimg.cn/large/006bYVyvgy1fpct2gy98rj30ez09ojrf.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://wx4.sinaimg.cn/large/006bYVyvgy1fpct2gy98rj30ez09ojrf.jpg">
+              </div>
+              <span class="label">
+              Next Post</span>
+              <div class="info">
+                <h3>
+                anime.js实现logo动画</h3>
+                <hr>
+              </div>
+            </a>
+          </div>
+        
+      </section>
+      
+<div id="vcomments"></div>
+<script>
+  window.onload = function(){
+      var valine = new Valine();
+      valine.init({
+        el: '#vcomments',
+        appId: "GyC3NzMvd0hT9Yyd2hYIC0MN-gzGzoHsz",
+        appKey: "mgOpfzbkHYqU92CV4IDlAUHQ",
+        path: window.location.pathname,
+        placeholder: "你是我一生只会遇见一次的惊喜 ..."
+      })
+  }
+</script>
+
+      <section class="author-profile">
+        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+          <a href="/about/hojun.html" class="profile gravatar"><img src="https://wx1.sinaimg.cn/large/006bYVyvgy1ftand2qurdj303c03cdfv.jpg" itemprop="image" alt="hojun" height="70" width="70"></a>
+          <div class="meta">
+            <span class="title">Author</span>
+            <h3 itemprop="name">
+            <a href="/about/hojun.html" itemprop="url" rel="author">hojun</a>
+            </h3>
+          </div>
+        </div>
+        <hr>
+        <p><i class="iconfont icon-write"></i></p>
+      </section>
+    </main><!-- #main -->
+  </div><!-- #primary -->
+</div>
+
+
+
+    </div>    
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="请输入关键词..."/>
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            // PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+    <!-- <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Moyi.ga(魔艺.咖)<br>
+      powered_by <a href="http://moyi.ga/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer> -->
+<footer id="colophon" class="site-footer" role="contentinfo">
+  <div class="site-info">
+    <div class="footertext">
+      <div class="img-preload">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/wordpress-rotating-ball-o.svg">
+        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/disqus-preloader.svg">
+      </div>
+      <p style="color: #666666;">&copy 2019</p>
+    </div>
+    <div class="footer-device">
+    <p style="font-family: 'Ubuntu', sans-serif;">
+        <span style="color: #b9b9b9;">Moyi.ga(魔艺.咖) <a href="https://moyi.ga" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Sakura</a> <i class="iconfont icon-sakura rotating" style="color: #ffc0cb;display:inline-block"></i> by <a href="https://2heng.xin/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Mashiro</a>&<a href="https://www.hojun.cn/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">Hojun</a>, Powered by Hexo, Hosted by Coding Pages</a>
+        </span>
+      </p>
+    </div>
+  </div><!-- .site-info -->
+</footer>
+
+
+
+<!-- <script src="/js/tocbot.js"></script> -->
+<script type="text/javascript" src="/js/lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script type="text/javascript" src="/js/InsightSearch.js"></script>
+<script type="text/javascript" src="/js/jquery.fancybox.min.js"></script>
+<script type="text/javascript" src="/js/zoom.min.js"></script>
+<script type="text/javascript" src="/js/sakura-app.js"></script>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='//unpkg.com/valine@1.3.4/dist/Valine.min.js'></script>
+<!-- 不蒜子 网页计数器 -->
+<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script> -->
+<script type="text/javascript">
+/* <![CDATA[ */
+if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.3/","name":"The Pet Girl of Sakurasou.mp4","live":"close"},"windowheight":"fixed","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+} else {
+  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.3/","name":"The Pet Girl of Sakurasou.mp4","live":"open"},"windowheight":"auto","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
+}
+/* ]]> */
+
+</script>
+<script>
+$(document).ready(function() {
+  if ($(".toc").length > 0 && document.body.clientWidth > 1200) {
+    if ($(".pattern-center").length > 0) { //有图的情况
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -400,
+          scrollSmoothOffset: -85
+      });
+    } else {
+      tocbot.init({
+          // Where to render the table of contents.
+          tocSelector: '.toc', // 放置目录的容器
+          // Where to grab the headings to build the table of contents.
+          contentSelector: '.entry-content', // 正文内容所在
+          // Which headings to grab inside of the contentSelector element.
+          scrollSmooth: true,
+          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
+          headingsOffset: -85,
+          scrollSmoothOffset: -85
+      });
+    }
+    var offsetTop = $('.toc').offset().top - 95;
+    window.onscroll = function() {
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+      if (scrollTop >= offsetTop) {
+        $('.toc').addClass('toc-fixed');
+      } else {
+        $('.toc').removeClass('toc-fixed');
+      }
+    }
+  }
+});
+</script>
+
+    <div class="openNav no-select" style="height: 50px;">
+      <div class="iconflat no-select" style="width: 50px; height: 50px;">
+        <div class="icon"></div>
+      </div>
+      <div class="site-branding search-form-submit">
+        <i class="iconfont js-toggle-search iconsearch icon-search"></i>
+      </div>
+    </div>
+  </section>
+  <div id="mo-nav" class="">
+  <div class="m-avatar">
+    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/custom/avatar.jpg">
+  </div>
+  <p style="text-align: center; color: #333; font-weight: 900; font-family: 'Ubuntu', sans-serif; letter-spacing: 1.5px">Moyi.ga(魔艺.咖)Moyi.ga</p>
+  <p style="text-align: center; word-spacing: 20px;">
+    
+      
+        <a href="http://qr02.cn/BHKrgz" class="fa fa-github" target="_blank" style="color: #333; margin-left:20px"></a>
+      
+        <a href="https://weibo.com/bznd" class="fa fa-weibo" target="_blank" style="color: #dd4b39; margin-left:20px"></a>
+      
+        <a href="https://wpa.qq.com/msgrd?v=3&uin=123705587&site=qq&menu=yes" class="fa fa-qq" target="_blank" style="color: #25c6fe; margin-left:20px"></a>
+      
+    
+  </p>
+  <ul id="menu-new-1" class="menu">
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
+            首页
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/archives">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
+            归档
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/categories/技术/">
+                  <i class="fa fa-code" aria-hidden="true"></i>
+                  技术
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/生活/">
+                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                  生活
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/资源/">
+                  <i class="fa fa-cloud-download" aria-hidden="true"></i>
+                  资源
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/随想/">
+                  <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                  随想
+                </a>
+              </li>
+            
+              <li>
+                <a href="/categories/转载/">
+                  <i class="fa fa-book" aria-hidden="true"></i>
+                  转载
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="javascript:;">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
+            娱乐
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/tags/悦读/">
+                  <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
+                  影音
+                </a>
+              </li>
+            
+              <li>
+                <a href="/bangumi/">
+                  <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
+                  图文
+                </a>
+              </li>
+            
+              <li>
+                <a href="/music/">
+                  <i class="fa fa-headphones" aria-hidden="true"></i>
+                  消遣
+                </a>
+              </li>
+            
+              <li>
+                <a href="/tags/图集/">
+                  <i class="fa fa-photo" aria-hidden="true"></i>
+                  游戏
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/comment/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
+            留言板
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/links/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
+            友人帐
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/donate/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
+            赞赏
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
+            关于
+          </span>
+        </a>
+        
+          <ul class="sub-menu">
+            
+              <li>
+                <a href="/about/">
+                  <i class="fa fa-meetup" aria-hidden="true"></i>
+                  我？
+                </a>
+              </li>
+            
+              <li>
+                <a href="/theme-sakura/">
+                  <i class="fa iconfont icon-sakura" aria-hidden="true"></i>
+                  主题
+                </a>
+              </li>
+            
+              <li>
+                <a href="/lab/">
+                  <i class="fa fa-cogs" aria-hidden="true"></i>
+                  Lab
+                </a>
+              </li>
+            
+          </ul>
+        
+      </li>
+    
+      <li>
+        <a href="/client/">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
+            客户端
+          </span>
+        </a>
+        
+      </li>
+    
+      <li>
+        <a href="/atom.xml">
+          <span class="faa-parent animated-hover">
+            <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
+            RSS
+          </span>
+        </a>
+        
+      </li>
+    
+  </ul>
+  <p style="text-align: center; font-size: 13px; color: #b9b9b9;">&copy 2019 hexo-sakura</p>
+</div>
+<button onclick="topFunction()" class="mobile-cd-top" id="moblieGoTop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
+<style>
+  .aplayer .aplayer-lrc {
+    height: 35px;
+  }
+  .aplayer .aplayer-lrc p{
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 18px !important;
+  }
+  .aplayer .aplayer-lrc p.aplayer-lrc-current{
+    color: #FF1493;
+  }
+  .aplayer.aplayer-narrow .aplayer-body{
+    left: -66px !important;
+  }
+  .aplayer.aplayer-fixed .aplayer-lrc {
+    display: none;
+  }
+  .aplayer .aplayer-lrc.aplayer-lrc-hide {
+      display:none !important;
+  }
+  .aplayer.aplayer-fixed .lrc-show {
+    display: block;
+    background: rgba(255, 255, 255, 0.8);
+  }
+</style>
+<div class="aplayer"
+
+    data-id="1978921795"
+
+    data-server="netease"
+
+    data-type="playlist"
+
+    data-fixed="true"
+
+    data-autoplay="false"
+
+    data-loop="all"
+
+    data-order="random"
+
+    data-preload="auto"
+
+    data-volume="0.7"
+
+    data-mutex="true"
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script>
+<script>
+  $(function(){
+    $('body').on('click', '.aplayer', function(){
+      if($('.aplayer-button').hasClass('aplayer-play')) {
+        $('.aplayer-lrc').removeClass('lrc-show');
+      } else {
+        $('.aplayer-lrc').addClass('lrc-show');
+      }
+    })
+  });
+</script>
+</body>
+</html>
