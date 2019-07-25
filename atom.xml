@@ -17,6 +17,26 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Web端720全景实现揭秘</title>
+    <link href="/2018/12/07/Web%E7%AB%AF720%E5%85%A8%E6%99%AF%E5%AE%9E%E7%8E%B0%E6%8F%AD%E7%A7%98/"/>
+    <id>/2018/12/07/Web端720全景实现揭秘/</id>
+    <published>2018-12-06T16:01:57.000Z</published>
+    <updated>2018-12-06T08:12:08.000Z</updated>
+    
+    <summary type="html">
+    
+      最近又一次接触到了web端全景，是在720yun上，发现有好多用户上传的全景照片。再也按捺不住那颗好奇的心，去探究了下720云是怎么实现web端全景展示的。
+    
+    </summary>
+    
+      <category term="技术" scheme="/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="web" scheme="/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
     <title>live2d提取系列233333</title>
     <link href="/2018/11/25/live2d%E6%8F%90%E5%8F%96%E7%B3%BB%E5%88%97233333/"/>
     <id>/2018/11/25/live2d提取系列233333/</id>
@@ -460,32 +480,6 @@
       <category term="微信" scheme="/tags/%E5%BE%AE%E4%BF%A1/"/>
     
       <category term="anyproxy" scheme="/tags/anyproxy/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>百度校招和按钮特效</title>
-    <link href="/2018/09/17/%E7%99%BE%E5%BA%A6%E6%A0%A1%E6%8B%9B%E5%92%8C%E6%8C%89%E9%92%AE%E7%89%B9%E6%95%88/"/>
-    <id>/2018/09/17/百度校招和按钮特效/</id>
-    <published>2018-09-17T15:31:00.000Z</published>
-    <updated>2018-12-06T08:12:08.000Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;今天在百度首页偶然看到了百度校招的消息（按F12键选择console页面）&lt;br&gt;&lt;img src=&quot;https://wx1.sinaimg.cn/large/006bYVyvgy1fvcxvyfp2xj30x30fz44g.jpg&quot;
-        
-      
-    
-    </summary>
-    
-      <category term="技术" scheme="/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="特效" scheme="/tags/%E7%89%B9%E6%95%88/"/>
     
   </entry>
   
