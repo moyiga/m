@@ -1,655 +1,161 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-  
-  <title itemprop="name">记录微信公众号历史文章采集(三、爬取历史文章信息和原文地址) | Moyi.ga(魔艺.咖)</title>
-  
-    <link rel="shortcut icon" href="/images/favicon.ico">
-  
-  <meta http-equiv="x-dns-prefetch-control" content="on">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+SerifMerriweather|Merriweather+Sans|Source+Code+Pro|Ubuntu:400,700|Noto+Serif+SC" media="all">
-  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-  <link rel="stylesheet" id="saukra_css-css" href="/css/style.css" type="text/css" media="all">
-  <link rel="stylesheet" href="/css/lib.min.css" media="all">
-  <link rel="stylesheet" href="/css/font.css" media="all">
-  <link rel="stylesheet" href="/css/insight.css" media="all">
-  <link rel="stylesheet" href="/css/jquery.fancybox.min.css" media="all">
-  <link rel="stylesheet" href="/css/zoom.css" media="all">
-  <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
-<!--   <link rel="stylesheet" id="saukra_css-css" href="https://2heng.xin/wp-content/cache/autoptimize/css/autoptimize_ad42a61f4c7d4bdd9f91afcff6b5dda5.css
-" type="text/css" media="all"> -->
-  <script>
-  /*Initial Variables*/
-  var mashiro_option = new Object();
-  var mashiro_global = new Object();
-  mashiro_option.NProgressON = true;
-  /* 
-   * 邮箱信息之类的东西可以填在这里，这些js变量基本都作用于sakura-app.js
-   * 这样的设置仅是为了方便在基于PHP开发的主题中设置js变量，既然移植到了Node上，我想或许可以精简这一逻辑吧
-   */
-  mashiro_option.email_domain = "";
-  mashiro_option.email_name = "";
-  mashiro_option.cookie_version_control = "";
-  mashiro_option.qzone_autocomplete = false;
-  mashiro_option.site_name = "Moyi.ga(魔艺.咖)Moyi.ga(魔艺.咖)";
-  mashiro_option.author_name = "Moyi.ga(魔艺.咖)";
-  mashiro_option.site_url = "https://moruan.gq";
-  mashiro_option.v_appId = "GyC3NzMvd0hT9Yyd2hYIC0MN-gzGzoHsz";
-  mashiro_option.v_appKey = "mgOpfzbkHYqU92CV4IDlAUHQ";
-  mashiro_option.mathjax = "0";
-  mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
-  mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
 
-  // mashiro_option.jsdelivr_css_src = "https://cdn.jsdelivr.net/gh/moezx/cdn@3.4.5/css/lib.min.css";
-  // mashiro_option.float_player_on = true;
-
-  /*End of Initial Variables*/
-  </script>
-  <script type="text/javascript">
-  var bg = "https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(1).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(2).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(3).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(4).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(5).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(6).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(7).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(8).jpg.webp".split(",");
-  var bgindex = Math.floor(Math.random()*bg.length);
-  if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
-    alert('朋友，IE浏览器未适配哦~');
-  }
-  </script>
-  <style type="text/css">
-  .hljs-ln{border-collapse:collapse}.hljs-ln td{padding:0}.hljs-ln-n:before{content:attr(data-line-number)}
-  </style>
-  <style type="text/css">.site-top .lower nav{display:block !important;}.author-profile i,.post-like a,.post-share .show-share,.sub-text,.we-info a,span.sitename,.post-more i:hover,#pagination a:hover,.post-content a:hover,.float-content i:hover{color:#FE9600}.feature i,.download,.navigator i:hover,.links ul li:before,.ar-time i,span.ar-circle,.object,.comment .comment-reply-link,.siren-checkbox-radio:checked + .siren-checkbox-radioInput:after{background:#FE9600}::-webkit-scrollbar-thumb{background:#FE9600}.download,.navigator i:hover,.link-title,.links ul li:hover,#pagination a:hover,.comment-respond input[type='submit']:hover{border-color:#FE9600}.entry-content a:hover,.site-info a:hover,.comment h4 a,#comments-navi a.prev,#comments-navi a.next,.comment h4 a:hover,.site-top ul li a:hover,.entry-title a:hover,#archives-temp h3,span.page-numbers.current,.sorry li a:hover,.site-title a:hover,i.iconfont.js-toggle-search.iconsearch:hover,.comment-respond input[type='submit']:hover{color:#FE9600}.comments .comments-main{display:block !important;}.comments .comments-hidden{display:none !important;}background-position:center center;background-attachment:inherit;}
-  </style>
-</head>
-</html>
-<body class="page-template page-template-user page-template-page-analytics page-template-userpage-analytics-php page page-id-1297 chinese-font serif isWebKit">
-  <div class="scrollbar" id="bar">
-  </div>
-  <a href="#" class="cd-top faa-float animated"></a>
-  <section id="main-container">
-    <div class="headertop filter-dot">
-  <div id="banner_wave_1"></div>
-  <div id="banner_wave_2"></div>
-  <figure id="centerbg" class="centerbg">
-    <div class="focusinfo no-select">
-      <div class="header-tou">
-        <a href="https://moruan.gq">
-          <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/custom/avatar.jpg">
-        </a>
-      </div>
-      <div class="header-info">
-        <p>Moyi.ga(魔艺.咖)一个带你玩转手机与电脑的网站</p>
-        <div class="top-social_v2">
-          <li id="bg-pre">
-            <img class="flipx" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
-          </li>
-          
-            
-              
-                <li>
-                  <a href="http://qr02.cn/BHKrgz" target="_blank" class="social-github" title="github">
-                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/social/github.png">
-                  </a>
-                </li>
-              
-            
-              
-                <li>
-                  <a href="https://weibo.com/bznd" target="_blank" class="social-github" title="sina">
-                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/social/sina.png">
-                  </a>
-                </li>
-              
-            
-              
-                <li>
-                  <a href="https://music.163.com/#/discover/toplist?id=3778678" target="_blank" class="social-github" title="wangyiyun">
-                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/social/wangyiyun.png">
-                  </a>
-                </li>
-              
-            
-              
-                <li>
-                  <a href="https://zhuanlan.zhihu.com/p/24763104" target="_blank" class="social-github" title="zhihu">
-                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/social/zhihu.png">
-                  </a>
-                </li>
-              
-            
-              
-                <li>
-                  <a href="https://www.jianshu.com/p/9ad46448c8eb" target="_blank" class="social-github" title="email">
-                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/social/email.svg">
-                  </a>
-                </li>
-              
-            
-              
-                <li class="wechat">
-                  <a href="/#">
-                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/social/wechat.png">
-                  </a>
-                  <div class="wechatInner">
-                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/custom/wechat.jpg">
-                  </div>
-                </li>
-              
-            
-          
-          <li id="bg-next">
-            <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
-          </li>
-        </div>
-      </div>
-    </div>
-  </figure>
-  <div id="video-container" style="">
-    <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
-    </video>
-    <div id="video-btn" class="loadvideo videolive">
-    </div>
-    <div id="video-add">
-    </div>
-    <div class="video-stu">
-    </div>
-  </div>
-  <div class="headertop-down faa-float animated" onclick="headertop_down()">
-    <span>
-      <i class="fa fa-chevron-down" aria-hidden="true">
-      </i>
-    </span>
-  </div>
-</div>
-    <div id="page" class="site wrapper">
-      <header class="site-header no-select gizle sabit" role="banner">
-  <div class="site-top">
-    <div class="site-branding">
-      <span class="site-title">
-        <span class="logolink moe-mashiro">
-          <a href="/">
-            <span class="sakurasono">Moyi.ga(魔艺.咖)</span>
-            <span class="shironeko">Moyi.ga(魔艺.咖)</span>
-          </a>
-        </span>
-      </span>
-    </div>
-    <div class="searchbox search-form-submit">
-      <i class="iconfont js-toggle-search iconsearch icon-search">
-      </i>
-    </div>
-    <div id="show-nav" class="showNav mobile-fit">
-      <div class="line line1">
-      </div>
-      <div class="line line2">
-      </div>
-      <div class="line line3">
-      </div>
-    </div>
-    <div class="lower-cantiner">
-      <div class="lower">
-        <nav class="mobile-fit-control hide">
-          <ul id="menu-new" class="menu">
-            
-              <li>
-                <a href="/">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
-                    首页
-                  </span>
-                </a>
-                
-              </li>
-            
-              <li>
-                <a href="/archives">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
-                    归档
-                  </span>
-                </a>
-                
-                  <ul class="sub-menu">
-                    
-                      <li>
-                        <a href="/categories/技术/">
-                          <i class="fa fa-code" aria-hidden="true"></i>
-                          技术
-                        </a>
-                      </li>
-                    
-                      <li>
-                        <a href="/categories/生活/">
-                          <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                          生活
-                        </a>
-                      </li>
-                    
-                      <li>
-                        <a href="/categories/资源/">
-                          <i class="fa fa-cloud-download" aria-hidden="true"></i>
-                          资源
-                        </a>
-                      </li>
-                    
-                      <li>
-                        <a href="/categories/随想/">
-                          <i class="fa fa-commenting-o" aria-hidden="true"></i>
-                          随想
-                        </a>
-                      </li>
-                    
-                      <li>
-                        <a href="/categories/转载/">
-                          <i class="fa fa-book" aria-hidden="true"></i>
-                          转载
-                        </a>
-                      </li>
-                    
-                  </ul>
-                
-              </li>
-            
-              <li>
-                <a href="javascript:;">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
-                    娱乐
-                  </span>
-                </a>
-                
-                  <ul class="sub-menu">
-                    
-                      <li>
-                        <a href="/tags/悦读/">
-                          <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
-                          影音
-                        </a>
-                      </li>
-                    
-                      <li>
-                        <a href="/bangumi/">
-                          <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
-                          图文
-                        </a>
-                      </li>
-                    
-                      <li>
-                        <a href="/music/">
-                          <i class="fa fa-headphones" aria-hidden="true"></i>
-                          消遣
-                        </a>
-                      </li>
-                    
-                      <li>
-                        <a href="/tags/图集/">
-                          <i class="fa fa-photo" aria-hidden="true"></i>
-                          游戏
-                        </a>
-                      </li>
-                    
-                  </ul>
-                
-              </li>
-            
-              <li>
-                <a href="/comment/">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
-                    留言板
-                  </span>
-                </a>
-                
-              </li>
-            
-              <li>
-                <a href="/links/">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
-                    友人帐
-                  </span>
-                </a>
-                
-              </li>
-            
-              <li>
-                <a href="/donate/">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
-                    赞赏
-                  </span>
-                </a>
-                
-              </li>
-            
-              <li>
-                <a href="/">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
-                    关于
-                  </span>
-                </a>
-                
-                  <ul class="sub-menu">
-                    
-                      <li>
-                        <a href="/about/">
-                          <i class="fa fa-meetup" aria-hidden="true"></i>
-                          我？
-                        </a>
-                      </li>
-                    
-                      <li>
-                        <a href="/theme-sakura/">
-                          <i class="fa iconfont icon-sakura" aria-hidden="true"></i>
-                          主题
-                        </a>
-                      </li>
-                    
-                      <li>
-                        <a href="/lab/">
-                          <i class="fa fa-cogs" aria-hidden="true"></i>
-                          Lab
-                        </a>
-                      </li>
-                    
-                  </ul>
-                
-              </li>
-            
-              <li>
-                <a href="/client/">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
-                    客户端
-                  </span>
-                </a>
-                
-              </li>
-            
-              <li>
-                <a href="/atom.xml">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
-                    RSS
-                  </span>
-                </a>
-                
-              </li>
-            
-          </ul>
-        </nav>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
-<div class="pattern-center-blank"></div>
-
-  <div class="pattern-center single-center">
-    <!-- 有配图默认渲染第一张 -->
-    <div class="pattern-attachment-img lazyload" style="background-image: url(https://wx1.sinaimg.cn/small/006bYVyvgy1fvf92rp8otj30e80e8dfz.jpg);" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://wx1.sinaimg.cn/small/006bYVyvgy1fvf92rp8otj30e80e8dfz.jpg">
-    </div>
-    <header class="pattern-header single-header">
-      <h1 class="entry-title">
-      记录微信公众号历史文章采集(三、爬取历史文章信息和原文地址)</h1>
-      <p class="entry-census">
-        <span>
-          <a href="/about/hojun.html">
-            <img src="https://wx1.sinaimg.cn/large/006bYVyvgy1ftand2qurdj303c03cdfv.jpg">
-          </a>
-        </span>
-        <span>
-          <a href="/about/hojun.html">hojun</a>
-        </span>
-        <span class="bull">
-        ·</span>
-        2018-9-21<span class="bull">
-        ·</span>
-      <span id="busuanzi_value_page_pv"></span>次阅读</p>
-    </header>
-  </div>
-
-<div id="content" class="site-content">
-  <div id="primary" class="content-area">
-    <main id="main" class="site-main" role="main">
-      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
-        <div class="toc"></div>
-        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
-        
-        <div class="entry-content">
-          <p>参考自知乎专题微信公众号内容的批量采集与应用，作者：飯口組組長<br>原作者（飯口組組長）有一句话：我的方法来源于许多同行的分享精神，所以我也会延续这个精神，将我的成果分享出来。<br>这系列的文章也是为了延续这份分享精神！<br>该系列文章是根据知乎专题的教程一步一步实现过程，以及实现过程中踩过的一些坑。<br>关于原理介绍这里就不重复了，大家可以参考知乎专题。<br>前期的代码可以在专题中找到。</p>
-<h2 id="PHP代码修改"><a href="#PHP代码修改" class="headerlink" title="PHP代码修改"></a>PHP代码修改</h2><p>在完善php代码之前，我们要先准备一份链接数据的代码。这里也没准备用啥框架实现，就直接写了个简单的获取pdo链接的函数：</p>
-<pre><code class="php">&lt;?
-function getConnection()
-{
-  $dbms=&#39;mysql&#39;;     //数据库类型
-  $host=&#39;localhost&#39;; //数据库主机名
-  $dbName=&#39;weixin&#39;;    //使用的数据库
-  $port=&#39;3307&#39;;    //使用的数据库
-  $user=&#39;root&#39;;      //数据库连接用户名
-  $pass=&#39;root&#39;;          //对应的密码root
-  $dsn=&quot;$dbms:host=$host;port=$port;dbname=$dbName&quot;;
-  try {
-      $pdo = new PDO($dsn, $user, $pass); //初始化一个PDO对象
-      $pdo-&gt;exec(&quot;SET NAMES &#39;utf8&#39;;&quot;);
-      $pdo-&gt;setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-      return $pdo;
-  }catch (PDOException $e) {
-      echo $e-&gt;getMessage();
-  }
-}
-</code></pre>
-<p>代码这里就不做详细解释了，感兴趣的可以去了解下pdo。</p>
-<p>接下来完善getMsgJson.php，这个文件。该php就能实现爬取历史页面的文章信息和原文地址了。但爬取微信文章内容还需要其他代码。<br>嗯嗯，直接给改好的代码吧，有不懂的可以私聊问作者吧，有空尽量回。</p>
-<pre><code class="php">&lt;?
-include &#39;getConnection.php&#39;;
-$str = $_POST[&#39;str&#39;];
-$url = $_POST[&#39;url&#39;];//先获取到两个POST变量
-
-//先针对url参数进行操作
-parse_str(parse_url(htmlspecialchars_decode(urldecode($url)),PHP_URL_QUERY ),$query);//解析url地址
-$biz = $query[&#39;__biz&#39;];//得到公众号的biz
-//接下来进行以下操作
-//从数据库中查询biz是否已经存在，如果不存在则插入，这代表着我们新添加了一个采集目标公众号。
-$pdo = getConnection();
-$sql = &#39;SELECT * FROM weixin WHERE biz = ?&#39;;
-$stmt = $pdo-&gt;prepare($sql);
-$stmt-&gt;bindParam(1, $biz);
-$stmt-&gt;execute();
-$res = $stmt-&gt;fetch(PDO::FETCH_ASSOC);
-if (!$res) {
-    $sql = &#39;INSERT INTO weixin (biz, collect) VALUES (?, ?)&#39;;
-    $stmt = $pdo-&gt;prepare($sql);
-    $stmt-&gt;execute(array($biz, strtotime(&quot;now&quot;)));
-}
-
-//再解析str变量
-$json = urldecode($str);//首先进行json_decode
-file_put_contents(&#39;./his.txt&#39;, $json);
-// $json = htmlspecialchars_decode($json);//首先进行json_decode
-$json = json_decode($json, true);//首先进行json_decode
-if(!$json){
-    $json = json_decode(htmlspecialchars_decode($str),true);//如果不成功，就增加一步htmlspecialchars_decode
-}
-
-
-foreach($json[&#39;list&#39;] as $k=&gt;$v){
-    $type = $v[&#39;comm_msg_info&#39;][&#39;type&#39;];
-    if($type==49){//type=49代表是图文消息
-        $content_url = str_replace(&quot;\\&quot;, &quot;&quot;, htmlspecialchars_decode($v[&#39;app_msg_ext_info&#39;][&#39;content_url&#39;]));//获得图文消息的链接地址
-        $is_multi = $v[&#39;app_msg_ext_info&#39;][&#39;is_multi&#39;];//是否是多图文消息
-        $datetime = $v[&#39;comm_msg_info&#39;][&#39;datetime&#39;];//图文消息发送时间
-        //在这里将图文消息链接地址插入到采集队列库中（队列库将在后文介绍，主要目的是建立一个批量采集队列，另一个程序将根据队列安排下一个采集的公众号或者文章内容）
-        $sql = &#39;SELECT id FROM tmplist WHERE content_url = ?&#39;;
-        $stmt = $pdo-&gt;prepare($sql);
-        $stmt-&gt;bindParam(1, $content_url);
-        $stmt-&gt;execute();
-        $res = $stmt-&gt;fetch(PDO::FETCH_ASSOC);
-        if (!$res) {
-            $sql = &#39;INSERT INTO tmplist (content_url) VALUES (?)&#39;;
-            $stmt = $pdo-&gt;prepare($sql);
-            $stmt-&gt;bindParam(1, $content_url);
-            $res = $stmt-&gt;execute();
-            $post = array();
-            $post[&#39;field_id&#39;] = $v[&#39;app_msg_ext_info&#39;][&#39;fileid&#39;];//一个微信给的id
-            $post[&#39;title&#39;] =  $v[&#39;app_msg_ext_info&#39;][&#39;title&#39;];//文章标题
-            $post[&#39;title_encode&#39;] = urlencode(str_replace(&quot;&amp;nbsp;&quot;, &quot;&quot;, $post[&#39;title&#39;]));//建议将标题进行编码，这样就可以存储emoji特殊符号了
-            $post[&#39;digest&#39;] = $v[&#39;app_msg_ext_info&#39;][&#39;digest&#39;];//文章摘要
-            $post[&#39;source_url&#39;]  = str_replace(&quot;\\&quot;, &quot;&quot;, htmlspecialchars_decode($v[&#39;app_msg_ext_info&#39;][&#39;source_url&#39;]));//阅读原文的链接
-            $post[&#39;cover&#39;] =  str_replace(&quot;\\&quot;, &quot;&quot;, htmlspecialchars_decode($v[&#39;app_msg_ext_info&#39;][&#39;cover&#39;]));//封面图片
-
-            $post[&#39;is_top&#39;] = 1;//标记一下是头条内容
-            $post[&#39;is_multi&#39;] = $is_multi;
-            $post[&#39;biz&#39;] = $biz;
-            $post[&#39;content_url&#39;] = $content_url;
-            $post[&#39;zdatetime&#39;] = $datetime;//文章摘要
-            //现在存入数据库
-            $sql = &#39;INSERT INTO post (biz, field_id, title, title_encode, digest, content_url, source_url, cover, is_top, is_multi, zdatetime) VALUES (:biz, :field_id, :title, :title_encode, :digest, :content_url, :source_url, :cover, :is_top, :is_multi, :zdatetime)&#39;;
-            $stmt = $pdo-&gt;prepare($sql);
-            $res = $stmt-&gt;execute($post);
-        }
-        if($is_multi==1){//如果是多图文消息
-            foreach($v[&#39;app_msg_ext_info&#39;][&#39;multi_app_msg_item_list&#39;] as $kk=&gt;$vv){//循环后面的图文消息
-                $content_url = str_replace(&quot;\\&quot;,&quot;&quot;,htmlspecialchars_decode($vv[&#39;content_url&#39;]));//图文消息链接地址
-                //这里再次根据$content_url判断一下数据库中是否重复以免出错
-                $sql = &#39;SELECT id FROM tmplist WHERE content_url = ?&#39;;
-                $stmt = $pdo-&gt;prepare($sql);
-                $stmt-&gt;bindParam(1, $content_url);
-                $stmt-&gt;execute();
-                $res = $stmt-&gt;fetch(PDO::FETCH_ASSOC);
-                if (!$res) {
-                    $sql = &#39;INSERT INTO tmplist (content_url) VALUES (?)&#39;;
-                    $stmt = $pdo-&gt;prepare($sql);
-                    $stmt-&gt;bindParam(1, $content_url);
-                    $res = $stmt-&gt;execute();
-                    //在这里将图文消息链接地址插入到采集队列库中（队列库将在后文介绍，主要目的是建立一个批量采集队列，另一个程序将根据队列安排下一个采集的公众号或者文章内容）
-                    $post = array();
-                    $post[&#39;title&#39;] = $vv[&#39;title&#39;];//文章标题
-                    $post[&#39;field_id&#39;] = $vv[&#39;fileid&#39;];//一个微信给的id
-                    $post[&#39;title_encode&#39;] = urlencode(str_replace(&quot;&amp;nbsp;&quot;,&quot;&quot;,$post[&#39;title&#39;]));//建议将标题进行编码，这样就可以存储emoji特殊符号了
-                    $post[&#39;digest&#39;] = htmlspecialchars($vv[&#39;digest&#39;]);//文章摘要
-                    $post[&#39;source_url&#39;] = str_replace(&quot;\\&quot;,&quot;&quot;,htmlspecialchars_decode($vv[&#39;source_url&#39;]));//阅读原文的链接
-                    $post[&#39;cover&#39;] = str_replace(&quot;\\&quot;,&quot;&quot;,htmlspecialchars_decode($vv[&#39;cover&#39;]));//封面图片
-                    //$cover = getCover(str_replace(&quot;\\&quot;,&quot;&quot;,htmlspecialchars_decode($vv[&#39;cover&#39;])));
-                    $post[&#39;zdatetime&#39;] = $datetime;
-                    $post[&#39;is_multi&#39;] = $is_multi;
-                    $post[&#39;is_top&#39;] = 0;
-                    $post[&#39;biz&#39;] = $biz;
-                    $post[&#39;content_url&#39;] = $content_url;
-                    //现在存入数据库
-                    $sql = &#39;INSERT INTO post (biz, field_id, title, title_encode, digest, content_url, source_url, cover, is_multi, is_top, zdatetime) VALUES (:biz, :field_id, :title, :title_encode, :digest, :content_url, :source_url, :cover, :is_multi, :is_top, :zdatetime)&#39;;
-                    $stmt = $pdo-&gt;prepare($sql);
-                    $res = $stmt-&gt;execute($post);
-                }
-            }
-        }
-    }
-}
-</code></pre>
-<p>想要看效果的可以把getWxHis.php、getWxPost.php中的echo语句注释掉。</p>
-<pre><code class="php">// echo &quot;&lt;script&gt;setTimeout(function(){window.location.href=&#39;&quot;.$url.&quot;&#39;;},2000);&lt;/script&gt;&quot;;//将下一个将要跳转的$url变成js脚本，由anyproxy注入到微信页面中。
-</code></pre>
-<p>未完待续……To be Continued……</p>
-
-        </div>
-        <!-- .entry-content -->
-        <div class="single-reward">
-          <div class="reward-open">赏<div class="reward-main">
-              <ul class="reward-row">
-                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/custom/donate/AliPayQR.jpg"></li>
-                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/custom/donate/WeChanQR.jpg"></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
-        <footer class="post-footer">
-          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
-          <div class="post-tags">
-          </div>
-          <div class="post-share">
-            <div class="social-share sharehidden share-component"></div>
-            <i class="iconfont show-share icon-forward"></i>
-          </div>
-        </footer><!-- .entry-footer -->
-      </article>
-      <!-- #post-## -->
-      <div class="toc" style="background: none;"></div>
-      <section class="post-squares nextprev">
-        
-          
-            <div class="post-nepre half previous">
-          
-            <a href="/2018/09/22/动漫·宝石之国/" rel="prev">
-              <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://ws3.sinaimg.cn/large/006bYVyvgy1fvi5xmjn5lj305006oabs.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://ws3.sinaimg.cn/large/006bYVyvgy1fvi5xmjn5lj305006oabs.jpg">
-              </div>
-              <span class="label">
-              Previous Post</span>
-              <div class="info">
-                <h3>
-                动漫·宝石之国</h3>
-                <hr>
-              </div>
-            </a>
-          </div>
-        
-        
-          
-            <div class="post-nepre half next">
-          
-            <a href="/2018/09/20/记录微信公众号历史文章采集-二、js代码完善和数据库建立/" rel="next">
-              <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://wx1.sinaimg.cn/small/006bYVyvgy1fvf92rp8otj30e80e8dfz.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://wx1.sinaimg.cn/small/006bYVyvgy1fvf92rp8otj30e80e8dfz.jpg">
-              </div>
-              <span class="label">
-              Next Post</span>
-              <div class="info">
-                <h3>
-                记录微信公众号历史文章采集(二、js代码完善和数据库建立)</h3>
-                <hr>
-              </div>
-            </a>
-          </div>
-        
-      </section>
-      
-<div id="vcomments"></div>
+<head>
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://www.hojun.cn/warn.html">
+<![endif]-->
+<!-- <script language=javascript> 
+ if (document.domain =='coding.hojun.cn')  
+     this.location = "https://www.hojun.cn" + this.location.pathname + this.location.search; 
+</script> -->
 <script>
-  window.onload = function(){
-      var valine = new Valine();
-      valine.init({
-        el: '#vcomments',
-        appId: "GyC3NzMvd0hT9Yyd2hYIC0MN-gzGzoHsz",
-        appKey: "mgOpfzbkHYqU92CV4IDlAUHQ",
-        path: window.location.pathname,
-        placeholder: "你是我一生只会遇见一次的惊喜 ..."
-      })
-  }
+  (function(d) {
+    var config = {
+      kitId: 'lsb6vmc',
+      scriptTimeout: 3000000,
+      async: true
+    },
+    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+  })(document);
 </script>
+<meta charset="utf-8">
 
-      <section class="author-profile">
-        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-          <a href="/about/hojun.html" class="profile gravatar"><img src="https://wx1.sinaimg.cn/large/006bYVyvgy1ftand2qurdj303c03cdfv.jpg" itemprop="image" alt="hojun" height="70" width="70"></a>
-          <div class="meta">
-            <span class="title">Author</span>
-            <h3 itemprop="name">
-            <a href="/about/hojun.html" itemprop="url" rel="author">hojun</a>
-            </h3>
-          </div>
-        </div>
-        <hr>
-        <p><i class="iconfont icon-write"></i></p>
-      </section>
-    </main><!-- #main -->
-  </div><!-- #primary -->
+<link rel="canonical" href="https://www.hojun.com/2018/09/21/记录微信公众号历史文章采集-三、爬取历史文章信息和原文地址/"/>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://www.hojun.cn">
+<meta name="author" content="hojun">
+<link rel="stylesheet" href="/css/SimpleStyle.css">
+<!-- <link rel="stylesheet" href="/css/loading.css"> -->
+<link rel="stylesheet" href="/css/xiaomai.css">
+<link rel="stylesheet" href="/css/share.min.css">
+<link rel="stylesheet" href="/css/zoom.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.min.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvgy1ftoufg1c8fj300g00g3yb.jpg">
+
+
+<title>记录微信公众号历史文章采集(三、爬取历史文章信息和原文地址) - hojun</title>
+
+<meta name="keywords" content="微信公众号历史文章采集">
+
+<meta name="description " content="微信公众号历史文章采集，参考自知乎专题[微信公众号内容的批量采集与应用]">
+<meta name="baidu-site-verification" content="0hxFvBRyRY" />
+
+    
+    <!-- 自动广告 -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-5634033670687375",
+            enable_page_level_ads: true
+        });
+    </script>
+
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://ziyuan.baidu.com/contexts/cambrian.jsonld",
+        "@id": "https://www.hojun.com/2018/09/21/记录微信公众号历史文章采集-三、爬取历史文章信息和原文地址/",
+        "appid": "1594654793276567",
+        "title": "记录微信公众号历史文章采集(三、爬取历史文章信息和原文地址)",
+        "images": ["https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvgy1fvf92rp8otj30e80e8dfz.jpg"],
+        "pubDate": "2018-09-21T11:23:25"
+    }
+    </script>
+    <script src="//msite.baidu.com/sdk/c.js?appid=1594654793276567"></script>
+</head>
+<body>
+<div id="loading">
+	<div id="loading-center">
+		<div id="loading-center-absolute">
+			<div class="object" id="object_five"></div>
+			<div class="object" id="object_four"></div>
+			<div class="object" id="object_three"></div>
+			<div class="object" id="object_two"></div>
+			<div class="object" id="object_one"></div>
+		</div>
+	</div>
 </div>
-
-
-
-    </div>    
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="HJ">HJ</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives/" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags/" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- <a href="/rss" title="RSS Feed"><i class="fa fa-rss"></i><span>RSS Feed</span></a> -->
+        <a href="/tags/悦读/" title="悦读"><i class="fa fa-book"></i><span>悦读</span></a>
+        <a href="/tags/图集/" title="图集"><i class="fa fa-photo"></i><span>图集</span></a>
+        <a href="/music/" title="音乐"><i class="fa fa-music"></i><span>音乐</span></a>
+        <a href="/video/" title="视频"><i class="fa fa-video-camera"></i><span>视频</span></a>
+        <a href="/tags/资源/" title="资源"><i class="fa fa-cloud"></i><span>资源</span></a>
+        <a href="/links/" title="友链"><i class="fa fa-link"></i><span>友链</span></a>
+        <a href="/2018/08/06/好少年光芒万丈/" title="签到"><i class="fa fa-hand-peace-o"></i><span>签到</span></a>
+        <a href="/help/" title="关于"><i class="fa fa-question-circle"></i><span>关于</span></a>
+        <!-- <div id="player2" class="aplayer" style="position: absolute; bottom:0px; width:45px; height:45px; margin:0px;" class="aplayer"></div> -->
+    </nav>
+        <!--<div id="player5" class="aplayer" style="position: fixed; bottom:0px; width:100%; height:auto; margin:0px;" class="aplayer"></div>--!>
+</div>
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-weixin-mp" href="http://author.baidu.com/home/1594654793276567"><i class="fa fa-paw"></i></a>
+</div>
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        <a href="/about_hojun.html"><img title="好少年光芒万丈" class="avatar" width="72" src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvgy1ftand2qurdj303c03cdfv.jpg" alt="avatar" /></a>
+        <h1>hojun</h1>
+        <h3>hello ，stranger</h3>
+        <p>一个好奇的博客</p>
+        <div class="cover-sns">
+            <div class="btn btn-weixin">
+                <a class="" href="javascript:"><i class="fa fa-weixin"></i></a>
+                <div class="qrcode"><img src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvgy1ftan8chgw0j302s02s3yh.jpg" alt="weixinQrcode" /></div>
+                <div class="qrcode-arrow"></div>
+            </div>
+            <div class="btn btn-weibo">
+                <a href="https://weibo.com/5673857615/profile?topnav=1&amp;wvr=6&amp;is_all=1" target="_blank" rel="nofollow"><i class="fa fa-weibo"></i></a>
+            </div>
+            <div class="btn btn-qq">
+                <a href="https://wpa.qq.com/msgrd?v=3&amp;uin=954655431&amp;site=qq&amp;menu=yes"  target="_blank" rel="nofollow"><i class="fa fa-qq"></i></a>
+            </div>
+            <div class="btn btn-github">
+                <a href="https://github.com/honjun"  target="_blank" rel="nofollow"><i class="fa fa-github"></i></a>
+            </div>
+            <div class="btn btn-bili">
+                <a href="https://space.bilibili.com/271849279/#/"  target="_blank" rel="nofollow"><i class="iconfont icon-bilibili"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+            <div class="page-title">
+    <ul>
+        <li><a href="/">首页</a></li>
+        
+        <li class="">
+            <a href="/categories/tech" data-name="技术">技术</a>
+        </li>
+        
+        <li class="">
+            <a href="/categories/live" data-name="生活">生活</a>
+        </li>
+        
+        <li class="">
+            <a href="/links/" data-name="友情链接">友链</a>
+        </li>
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <label for="s" class="sr-only">请输入关键字</label>
+        <input class="search-field" type="text" name="s" class="text" placeholder="请输入关键字" />
+        <button type="submit" class="search-form-submit" title="搜索"><i class="fa fa-search"></i></button>
+    </form>
     <div class="ins-search">
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
@@ -677,377 +183,707 @@ foreach($json[&#39;list&#39;] as $k=&gt;$v){
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
-    <!-- <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2019 Moyi.ga(魔艺.咖)<br>
-      powered_by <a href="http://moyi.ga/" target="_blank">Hexo</a>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://www.hojun.cn">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="/about/hojun.html" target="_blank">
+                    <img width="48" src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvgy1ftand2qurdj303c03cdfv.jpg" alt="avatar"/>
+                </a>
+                <p><span class="label">作者</span>
+                    <span>hojun</span>
+                    <span title="最后编辑于2018-09-21">2018-09-21</span>
+                </p>
+                <p>一个好奇的人</p>
+            </div>
+            <h2 class="post-title">记录微信公众号历史文章采集(三、爬取历史文章信息和原文地址)</h2>
+            <div class="post-meta">
+                本文总共6782个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p>参考自知乎专题微信公众号内容的批量采集与应用，作者：飯口組組長<br>原作者（飯口組組長）有一句话：我的方法来源于许多同行的分享精神，所以我也会延续这个精神，将我的成果分享出来。<br>这系列的文章也是为了延续这份分享精神！<br>该系列文章是根据知乎专题的教程一步一步实现过程，以及实现过程中踩过的一些坑。<br>关于原理介绍这里就不重复了，大家可以参考知乎专题。<br>前期的代码可以在专题中找到。</p>
+<h2 id="PHP代码修改"><a href="#PHP代码修改" class="headerlink" title="PHP代码修改"></a>PHP代码修改</h2><p>在完善php代码之前，我们要先准备一份链接数据的代码。这里也没准备用啥框架实现，就直接写了个简单的获取pdo链接的函数：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getConnection</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  $dbms=<span class="string">'mysql'</span>;     <span class="comment">//数据库类型</span></span><br><span class="line">  $host=<span class="string">'localhost'</span>; <span class="comment">//数据库主机名</span></span><br><span class="line">  $dbName=<span class="string">'weixin'</span>;    <span class="comment">//使用的数据库</span></span><br><span class="line">  $port=<span class="string">'3307'</span>;    <span class="comment">//使用的数据库</span></span><br><span class="line">  $user=<span class="string">'root'</span>;      <span class="comment">//数据库连接用户名</span></span><br><span class="line">  $pass=<span class="string">'root'</span>;          <span class="comment">//对应的密码root</span></span><br><span class="line">  $dsn=<span class="string">"$dbms:host=$host;port=$port;dbname=$dbName"</span>;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">      $pdo = <span class="keyword">new</span> PDO($dsn, $user, $pass); <span class="comment">//初始化一个PDO对象</span></span><br><span class="line">      $pdo-&gt;exec(<span class="string">"SET NAMES 'utf8';"</span>);</span><br><span class="line">      $pdo-&gt;setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);</span><br><span class="line">      <span class="keyword">return</span> $pdo;</span><br><span class="line">  &#125;<span class="keyword">catch</span> (PDOException $e) &#123;</span><br><span class="line">      <span class="keyword">echo</span> $e-&gt;getMessage();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码这里就不做详细解释了，感兴趣的可以去了解下pdo。</p>
+<p>接下来完善getMsgJson.php，这个文件。该php就能实现爬取历史页面的文章信息和原文地址了。但爬取微信文章内容还需要其他代码。<br>嗯嗯，直接给改好的代码吧，有不懂的可以私聊问作者吧，有空尽量回。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">'getConnection.php'</span>;</span><br><span class="line">$str = $_POST[<span class="string">'str'</span>];</span><br><span class="line">$url = $_POST[<span class="string">'url'</span>];<span class="comment">//先获取到两个POST变量</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//先针对url参数进行操作</span></span><br><span class="line">parse_str(parse_url(htmlspecialchars_decode(urldecode($url)),PHP_URL_QUERY ),$query);<span class="comment">//解析url地址</span></span><br><span class="line">$biz = $query[<span class="string">'__biz'</span>];<span class="comment">//得到公众号的biz</span></span><br><span class="line"><span class="comment">//接下来进行以下操作</span></span><br><span class="line"><span class="comment">//从数据库中查询biz是否已经存在，如果不存在则插入，这代表着我们新添加了一个采集目标公众号。</span></span><br><span class="line">$pdo = getConnection();</span><br><span class="line">$sql = <span class="string">'SELECT * FROM weixin WHERE biz = ?'</span>;</span><br><span class="line">$stmt = $pdo-&gt;prepare($sql);</span><br><span class="line">$stmt-&gt;bindParam(<span class="number">1</span>, $biz);</span><br><span class="line">$stmt-&gt;execute();</span><br><span class="line">$res = $stmt-&gt;fetch(PDO::FETCH_ASSOC);</span><br><span class="line"><span class="keyword">if</span> (!$res) &#123;</span><br><span class="line">    $sql = <span class="string">'INSERT INTO weixin (biz, collect) VALUES (?, ?)'</span>;</span><br><span class="line">    $stmt = $pdo-&gt;prepare($sql);</span><br><span class="line">    $stmt-&gt;execute(<span class="keyword">array</span>($biz, strtotime(<span class="string">"now"</span>)));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//再解析str变量</span></span><br><span class="line">$json = urldecode($str);<span class="comment">//首先进行json_decode</span></span><br><span class="line">file_put_contents(<span class="string">'./his.txt'</span>, $json);</span><br><span class="line"><span class="comment">// $json = htmlspecialchars_decode($json);//首先进行json_decode</span></span><br><span class="line">$json = json_decode($json, <span class="keyword">true</span>);<span class="comment">//首先进行json_decode</span></span><br><span class="line"><span class="keyword">if</span>(!$json)&#123;</span><br><span class="line">    $json = json_decode(htmlspecialchars_decode($str),<span class="keyword">true</span>);<span class="comment">//如果不成功，就增加一步htmlspecialchars_decode</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span>($json[<span class="string">'list'</span>] <span class="keyword">as</span> $k=&gt;$v)&#123;</span><br><span class="line">    $type = $v[<span class="string">'comm_msg_info'</span>][<span class="string">'type'</span>];</span><br><span class="line">    <span class="keyword">if</span>($type==<span class="number">49</span>)&#123;<span class="comment">//type=49代表是图文消息</span></span><br><span class="line">        $content_url = str_replace(<span class="string">"\\"</span>, <span class="string">""</span>, htmlspecialchars_decode($v[<span class="string">'app_msg_ext_info'</span>][<span class="string">'content_url'</span>]));<span class="comment">//获得图文消息的链接地址</span></span><br><span class="line">        $is_multi = $v[<span class="string">'app_msg_ext_info'</span>][<span class="string">'is_multi'</span>];<span class="comment">//是否是多图文消息</span></span><br><span class="line">        $datetime = $v[<span class="string">'comm_msg_info'</span>][<span class="string">'datetime'</span>];<span class="comment">//图文消息发送时间</span></span><br><span class="line">        <span class="comment">//在这里将图文消息链接地址插入到采集队列库中（队列库将在后文介绍，主要目的是建立一个批量采集队列，另一个程序将根据队列安排下一个采集的公众号或者文章内容）</span></span><br><span class="line">        $sql = <span class="string">'SELECT id FROM tmplist WHERE content_url = ?'</span>;</span><br><span class="line">        $stmt = $pdo-&gt;prepare($sql);</span><br><span class="line">        $stmt-&gt;bindParam(<span class="number">1</span>, $content_url);</span><br><span class="line">        $stmt-&gt;execute();</span><br><span class="line">        $res = $stmt-&gt;fetch(PDO::FETCH_ASSOC);</span><br><span class="line">        <span class="keyword">if</span> (!$res) &#123;</span><br><span class="line">            $sql = <span class="string">'INSERT INTO tmplist (content_url) VALUES (?)'</span>;</span><br><span class="line">            $stmt = $pdo-&gt;prepare($sql);</span><br><span class="line">            $stmt-&gt;bindParam(<span class="number">1</span>, $content_url);</span><br><span class="line">            $res = $stmt-&gt;execute();</span><br><span class="line">            $post = <span class="keyword">array</span>();</span><br><span class="line">            $post[<span class="string">'field_id'</span>] = $v[<span class="string">'app_msg_ext_info'</span>][<span class="string">'fileid'</span>];<span class="comment">//一个微信给的id</span></span><br><span class="line">            $post[<span class="string">'title'</span>] =  $v[<span class="string">'app_msg_ext_info'</span>][<span class="string">'title'</span>];<span class="comment">//文章标题</span></span><br><span class="line">            $post[<span class="string">'title_encode'</span>] = urlencode(str_replace(<span class="string">"&amp;nbsp;"</span>, <span class="string">""</span>, $post[<span class="string">'title'</span>]));<span class="comment">//建议将标题进行编码，这样就可以存储emoji特殊符号了</span></span><br><span class="line">            $post[<span class="string">'digest'</span>] = $v[<span class="string">'app_msg_ext_info'</span>][<span class="string">'digest'</span>];<span class="comment">//文章摘要</span></span><br><span class="line">            $post[<span class="string">'source_url'</span>]  = str_replace(<span class="string">"\\"</span>, <span class="string">""</span>, htmlspecialchars_decode($v[<span class="string">'app_msg_ext_info'</span>][<span class="string">'source_url'</span>]));<span class="comment">//阅读原文的链接</span></span><br><span class="line">            $post[<span class="string">'cover'</span>] =  str_replace(<span class="string">"\\"</span>, <span class="string">""</span>, htmlspecialchars_decode($v[<span class="string">'app_msg_ext_info'</span>][<span class="string">'cover'</span>]));<span class="comment">//封面图片</span></span><br><span class="line"></span><br><span class="line">            $post[<span class="string">'is_top'</span>] = <span class="number">1</span>;<span class="comment">//标记一下是头条内容</span></span><br><span class="line">            $post[<span class="string">'is_multi'</span>] = $is_multi;</span><br><span class="line">            $post[<span class="string">'biz'</span>] = $biz;</span><br><span class="line">            $post[<span class="string">'content_url'</span>] = $content_url;</span><br><span class="line">            $post[<span class="string">'zdatetime'</span>] = $datetime;<span class="comment">//文章摘要</span></span><br><span class="line">            <span class="comment">//现在存入数据库</span></span><br><span class="line">            $sql = <span class="string">'INSERT INTO post (biz, field_id, title, title_encode, digest, content_url, source_url, cover, is_top, is_multi, zdatetime) VALUES (:biz, :field_id, :title, :title_encode, :digest, :content_url, :source_url, :cover, :is_top, :is_multi, :zdatetime)'</span>;</span><br><span class="line">            $stmt = $pdo-&gt;prepare($sql);</span><br><span class="line">            $res = $stmt-&gt;execute($post);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>($is_multi==<span class="number">1</span>)&#123;<span class="comment">//如果是多图文消息</span></span><br><span class="line">            <span class="keyword">foreach</span>($v[<span class="string">'app_msg_ext_info'</span>][<span class="string">'multi_app_msg_item_list'</span>] <span class="keyword">as</span> $kk=&gt;$vv)&#123;<span class="comment">//循环后面的图文消息</span></span><br><span class="line">                $content_url = str_replace(<span class="string">"\\"</span>,<span class="string">""</span>,htmlspecialchars_decode($vv[<span class="string">'content_url'</span>]));<span class="comment">//图文消息链接地址</span></span><br><span class="line">                <span class="comment">//这里再次根据$content_url判断一下数据库中是否重复以免出错</span></span><br><span class="line">                $sql = <span class="string">'SELECT id FROM tmplist WHERE content_url = ?'</span>;</span><br><span class="line">                $stmt = $pdo-&gt;prepare($sql);</span><br><span class="line">                $stmt-&gt;bindParam(<span class="number">1</span>, $content_url);</span><br><span class="line">                $stmt-&gt;execute();</span><br><span class="line">                $res = $stmt-&gt;fetch(PDO::FETCH_ASSOC);</span><br><span class="line">                <span class="keyword">if</span> (!$res) &#123;</span><br><span class="line">                    $sql = <span class="string">'INSERT INTO tmplist (content_url) VALUES (?)'</span>;</span><br><span class="line">                    $stmt = $pdo-&gt;prepare($sql);</span><br><span class="line">                    $stmt-&gt;bindParam(<span class="number">1</span>, $content_url);</span><br><span class="line">                    $res = $stmt-&gt;execute();</span><br><span class="line">                    <span class="comment">//在这里将图文消息链接地址插入到采集队列库中（队列库将在后文介绍，主要目的是建立一个批量采集队列，另一个程序将根据队列安排下一个采集的公众号或者文章内容）</span></span><br><span class="line">                    $post = <span class="keyword">array</span>();</span><br><span class="line">                    $post[<span class="string">'title'</span>] = $vv[<span class="string">'title'</span>];<span class="comment">//文章标题</span></span><br><span class="line">                    $post[<span class="string">'field_id'</span>] = $vv[<span class="string">'fileid'</span>];<span class="comment">//一个微信给的id</span></span><br><span class="line">                    $post[<span class="string">'title_encode'</span>] = urlencode(str_replace(<span class="string">"&amp;nbsp;"</span>,<span class="string">""</span>,$post[<span class="string">'title'</span>]));<span class="comment">//建议将标题进行编码，这样就可以存储emoji特殊符号了</span></span><br><span class="line">                    $post[<span class="string">'digest'</span>] = htmlspecialchars($vv[<span class="string">'digest'</span>]);<span class="comment">//文章摘要</span></span><br><span class="line">                    $post[<span class="string">'source_url'</span>] = str_replace(<span class="string">"\\"</span>,<span class="string">""</span>,htmlspecialchars_decode($vv[<span class="string">'source_url'</span>]));<span class="comment">//阅读原文的链接</span></span><br><span class="line">                    $post[<span class="string">'cover'</span>] = str_replace(<span class="string">"\\"</span>,<span class="string">""</span>,htmlspecialchars_decode($vv[<span class="string">'cover'</span>]));<span class="comment">//封面图片</span></span><br><span class="line">                    <span class="comment">//$cover = getCover(str_replace("\\","",htmlspecialchars_decode($vv['cover'])));</span></span><br><span class="line">                    $post[<span class="string">'zdatetime'</span>] = $datetime;</span><br><span class="line">                    $post[<span class="string">'is_multi'</span>] = $is_multi;</span><br><span class="line">                    $post[<span class="string">'is_top'</span>] = <span class="number">0</span>;</span><br><span class="line">                    $post[<span class="string">'biz'</span>] = $biz;</span><br><span class="line">                    $post[<span class="string">'content_url'</span>] = $content_url;</span><br><span class="line">                    <span class="comment">//现在存入数据库</span></span><br><span class="line">                    $sql = <span class="string">'INSERT INTO post (biz, field_id, title, title_encode, digest, content_url, source_url, cover, is_multi, is_top, zdatetime) VALUES (:biz, :field_id, :title, :title_encode, :digest, :content_url, :source_url, :cover, :is_multi, :is_top, :zdatetime)'</span>;</span><br><span class="line">                    $stmt = $pdo-&gt;prepare($sql);</span><br><span class="line">                    $res = $stmt-&gt;execute($post);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>想要看效果的可以把getWxHis.php、getWxPost.php中的echo语句注释掉。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// echo "&lt;script&gt;setTimeout(function()&#123;window.location.href='".$url."';&#125;,2000);&lt;/script&gt;";//将下一个将要跳转的$url变成js脚本，由anyproxy注入到微信页面中。</span></span><br></pre></td></tr></table></figure>
+
+<p>未完待续……To be Continued……</p>
+
+            <p style="text-align: center;">希望这篇文章能给你带来知识和乐趣，喜欢博主的文章可以加博主好友哦<img class="owoemoji" src="/OwO/img/脸红.png"></p>
+            <p style="text-align: center;">有好的文章也可以向博主投稿哦<img class="owoemoji" src="/OwO/img/期待.png"></p>
+        </div>
+        <div style="text-align:center" class="social-share" data-disabled="facebook, twitter, google"></div>
+        <p style="text-align: center;">您的喜欢是作者写作最大的动力<img class="owoemoji" src="/OwO/img/爱心.png"></p>
+        
+
+        <div class="post-tool">
+            <a class="btn-weixin-tip" href="javascript:void(0);">
+                <i class="fa fa-mobile" aria-hidden="true"></i> 打赏支持
+            </a>
+        </div>
+
+        <p style="text-align: center;"><img class="owoemoji" src="/OwO/img/太开心.png">QQ群和公众号
+        <p style="text-align: center;"><img height="200px" src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvly1g22ie1sr2jj306m06ywef.jpg"><img src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvly1g1ksxfx94qj309k09k3yg.jpg"></p>
+        
+        <div class="post-series">微信公众号采集-系列文章：
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    <li><a href="/2018/09/19/记录微信公众号历史文章采集-一、Anyproxy/">记录微信公众号历史文章采集(一、Anyproxy)</a></li>
+                
+            
+                
+                    <li><a href="/2018/09/20/记录微信公众号历史文章采集-二、js代码完善和数据库建立/">记录微信公众号历史文章采集(二、js代码完善和数据库建立)</a></li>
+                
+            
+                
+                    <li><a href="/2018/09/21/记录微信公众号历史文章采集-三、爬取历史文章信息和原文地址/">记录微信公众号历史文章采集(三、爬取历史文章信息和原文地址)</a></li>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        </div>
+        
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/php/">php</a>
+            
+            <a href="/tags/爬虫/">爬虫</a>
+            
+            <a href="/tags/微信/">微信</a>
+            
+            <a href="/tags/anyproxy/">anyproxy</a>
+            
+        </div>
+        
+    </article>
+    <div class="post-nav">
+        
+        <div class="post-nav-prev post-nav-item">
+            <a href="/2018/09/22/动漫·宝石之国/" >动漫·宝石之国<i class="fa fa-chevron-left"></i></a>
+        </div>
+        
+        
+        <div class="post-nav-next post-nav-item">
+            <a href="/2018/09/20/记录微信公众号历史文章采集-二、js代码完善和数据库建立/" >记录微信公众号历史文章采集(二、js代码完善和数据库建立)<i class="fa fa-chevron-right"></i></a>
+        </div>
+        
     </div>
-  </div>
-</footer> -->
-<footer id="colophon" class="site-footer" role="contentinfo">
-  <div class="site-info">
-    <div class="footertext">
-      <div class="img-preload">
-        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/wordpress-rotating-ball-o.svg">
-        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/disqus-preloader.svg">
-      </div>
-      <p style="color: #666666;">&copy 2019</p>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/honjun/hexo-helper-tocbot/css/tocbot.css"><style>
+    .js-toc {
+        width: 200px;
+        height: auto;
+        z-index: 98;
+        background-color: rgba(255,255,255,0);
+        transform: translateX(0);
+        right: calc((100% - 950px - 250px) / 2);
+        top: 60px;
+        position: fixed;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+  </style><script src="https://cdn.jsdelivr.net/gh/honjun/hexo-helper-tocbot/js/tocbot.js"></script><div class="js-toc"></div><script type="text/javascript">
+    tocbot.init({"contentSelector":".post-content","scrollSmooth":true,"headingSelector":"h1, h2, h3, h4, h5","headingsOffset":45,"scrollSmoothOffset":-45,"tocSelector":".js-toc","ignoreSelector":".js-toc-ignore","linkClass":"toc-link","extraLinkClasses":"","activeLinkClass":"is-active-link","listClass":"toc-list","extraListClasses":"","isCollapsedClass":"is-collapsed","collapsibleClass":"is-collapsible","listItemClass":"toc-list-item","activeListItemClass":"is-active-li","collapseDepth":0,"scrollSmoothDuration":420,"throttleTimeout":50,"positionFixedSelector":null,"positionFixedClass":"is-position-fixed","fixedSidebarOffset":"auto","includeHtml":false,"onClick":false,"orderedList":true,"scrollContainer":null})
+  </script>
+    <!-- 
+<aside id="article-toc" role="navigation" class="fixed">
+    <div id="article-toc-inner">
+        <strong class="sidebar-title">
+        目录</strong>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP代码修改"><span class="toc-text">PHP代码修改</span></a></li></ol>
     </div>
-    <div class="footer-device">
-    <p style="font-family: 'Ubuntu', sans-serif;">
-        <span style="color: #b9b9b9;">Moyi.ga(魔艺.咖) <a href="https://moyi.ga" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">了</a> <i class="iconfont icon-sakura rotating" style="color: #ffc0cb;display:inline-block"></i> 呵呵 <a href="https://2heng.xin/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(255, 142, 142, 0.1);">切掉</a>你<a href="https://moyi.ga/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">mayi.ga</a>, 终于消掉你了</a>
-        </span>
-      </p>
-    </div>
-  </div><!-- .site-info -->
-</footer>
+</aside>
+ -->
+     
 
 
 
-<!-- <script src="/js/tocbot.js"></script> -->
-<script type="text/javascript" src="/js/lib.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
-<script type="text/javascript" src="/js/InsightSearch.js"></script>
-<script type="text/javascript" src="/js/jquery.fancybox.min.js"></script>
-<script type="text/javascript" src="/js/zoom.min.js"></script>
-<script type="text/javascript" src="/js/sakura-app.js"></script>
+
+
+
+
+
 <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-<script src='//unpkg.com/valine@1.3.4/dist/Valine.min.js'></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<!-- <span id="/2018/09/21/记录微信公众号历史文章采集-三、爬取历史文章信息和原文地址/" class="leancloud-visitors" data-flag-title="文章阅读量统计">
+    <span class="post-meta-item-text">阅读量 </span>
+    <span class="leancloud-visitors-count">1000000</span>
+</span> -->
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: "GyC3NzMvd0hT9Yyd2hYIC0MN-gzGzoHsz",
+    appKey: "mgOpfzbkHYqU92CV4IDlAUHQ",
+    // visitor: true
+  })
+</script>
+
+
+
+
+    
+    
+    
+        <div class="adsense_post_left">
+            
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:160px;height:600px"
+         data-ad-client="ca-pub-5634033670687375"
+         data-ad-slot="9797686907"></ins>
+
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+        </div>
+        <div class="adsense_post_right">
+            
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:160px;height:600px"
+         data-ad-client="ca-pub-5634033670687375"
+         data-ad-slot="7335051380"></ins>
+
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+        </div>
+        
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-5634033670687375"
+         data-ad-slot="8296902977"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+    
+
+
+</div>
 <!-- 不蒜子 网页计数器 -->
-<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script> -->
-<script type="text/javascript">
-/* <![CDATA[ */
-if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
-  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.3/","name":"The Pet Girl of Sakurasou.mp4","live":"close"},"windowheight":"fixed","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
-} else {
-  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.3/","name":"The Pet Girl of Sakurasou.mp4","live":"open"},"windowheight":"auto","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
-}
-/* ]]> */
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-</script>
-<script>
-$(document).ready(function() {
-  if ($(".toc").length > 0 && document.body.clientWidth > 1200) {
-    if ($(".pattern-center").length > 0) { //有图的情况
-      tocbot.init({
-          // Where to render the table of contents.
-          tocSelector: '.toc', // 放置目录的容器
-          // Where to grab the headings to build the table of contents.
-          contentSelector: '.entry-content', // 正文内容所在
-          // Which headings to grab inside of the contentSelector element.
-          scrollSmooth: true,
-          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
-          headingsOffset: -400,
-          scrollSmoothOffset: -85
-      });
-    } else {
-      tocbot.init({
-          // Where to render the table of contents.
-          tocSelector: '.toc', // 放置目录的容器
-          // Where to grab the headings to build the table of contents.
-          contentSelector: '.entry-content', // 正文内容所在
-          // Which headings to grab inside of the contentSelector element.
-          scrollSmooth: true,
-          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
-          headingsOffset: -85,
-          scrollSmoothOffset: -85
-      });
-    }
-    var offsetTop = $('.toc').offset().top - 95;
-    window.onscroll = function() {
-      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-      if (scrollTop >= offsetTop) {
-        $('.toc').addClass('toc-fixed');
-      } else {
-        $('.toc').removeClass('toc-fixed');
-      }
-    }
-  }
-});
-</script>
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner">
+        <!-- <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=0e48d2d6785c4b110daa7e450102de5ebe028e86bde31a428399911eb53bd450"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="简书散人交流群" title="简书散人交流群"></a> -->
+        <p id="hitokoto">:D 获取中...</p>
+        <script>
+          var xhr = new XMLHttpRequest();
+          xhr.open('get', 'https://v1.hitokoto.cn');
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+              var data = JSON.parse(xhr.responseText);
+              var hitokoto = document.getElementById('hitokoto');
+              hitokoto.innerText = data.hitokoto + '  ——' + data.from;
+            }
+          }
+          xhr.send();
+        </script>
+        <p>
+            <a href="/about/hojun.html"  title="关于作者">关于作者</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/help" title="关于" >关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/archives" title="归档">归档</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
 
-    <div class="openNav no-select" style="height: 50px;">
-      <div class="iconflat no-select" style="width: 50px; height: 50px;">
-        <div class="icon"></div>
-      </div>
-      <div class="site-branding search-form-submit">
-        <i class="iconfont js-toggle-search iconsearch icon-search"></i>
-      </div>
+            <!-- 自定义链接 -->
+            <a href="/links" title="友情链接">友情链接</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+        </p>
+        <p>
+            本站点采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>，已建立<a href="/timeline" id="siteBuildingTime"></a>天<br/>
+            ©2017 基于<a href="http://hexo.io" target="_blank">Hexo</a>搭建
+            ，主题&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank">JSimple</a>
+            ，Hosted by <a href="https://github.com/" target="_blank">Github Pages</a>，Hosted by <a href="https://pages.coding.me" target="_blank">Coding Pages</a>
+        </p>
+        <p>从这里可以访问到我</p>
+        <p>
+          <!-- <a href="https://shop206822225.taobao.com/index.htm"><img style="margin:5px;width: 100px; height: 100px;" src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvly1fwhbrhm111j30ia0iak0l.jpg" alt=""></a> -->
+          <!-- <a href="javascript:"><img style="margin:5px;width: 100px; height: 100px;" src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvly1g1ksxfx94qj309k09k3yg.jpg" alt=""></a> -->
+          <a href="https://author.baidu.com/home/1594654793276567"><img style="margin:5px;width: 100px; height: 100px;" src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvgy1ftpw8983bjj308c08c77h.jpg" alt=""></a>
+          <a href="https://www.jianshu.com/u/e8537ffe74d6"><img style="margin:5px;width: 100px; height: 100px;" src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvgy1ftpw8a5u1lj308c08ctas.jpg" alt=""></a>
+          <a href="https://www.toutiao.com/c/user/71618825563/#mid=1595095174687757"><img style="margin:5px;width: 100px; height: 100px;" src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvgy1ftpw8aqarej308c08cadu.jpg" alt=""></a>
+          <a href="https://www.hojun.cn"><img style="margin:5px;width: 100px; height: 100px;" src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvgy1ftpw89p4kaj308c08c40a.jpg" alt=""></a>
+        </p>
+        <p id="cnzz"></p>
     </div>
-  </section>
-  <div id="mo-nav" class="">
-  <div class="m-avatar">
-    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/custom/avatar.jpg">
-  </div>
-  <p style="text-align: center; color: #333; font-weight: 900; font-family: 'Ubuntu', sans-serif; letter-spacing: 1.5px">Moyi.ga(魔艺.咖)Moyi.ga(魔艺.咖)</p>
-  <p style="text-align: center; word-spacing: 20px;">
-    
-      
-        <a href="http://qr02.cn/BHKrgz" class="fa fa-github" target="_blank" style="color: #333; margin-left:20px"></a>
-      
-        <a href="https://weibo.com/bznd" class="fa fa-weibo" target="_blank" style="color: #dd4b39; margin-left:20px"></a>
-      
-        <a href="https://wpa.qq.com/msgrd?v=3&uin=123705587&site=qq&menu=yes" class="fa fa-qq" target="_blank" style="color: #25c6fe; margin-left:20px"></a>
-      
-    
-  </p>
-  <ul id="menu-new-1" class="menu">
-    
-      <li>
-        <a href="/">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
-            首页
-          </span>
-        </a>
-        
-      </li>
-    
-      <li>
-        <a href="/archives">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
-            归档
-          </span>
-        </a>
-        
-          <ul class="sub-menu">
-            
-              <li>
-                <a href="/categories/技术/">
-                  <i class="fa fa-code" aria-hidden="true"></i>
-                  技术
-                </a>
-              </li>
-            
-              <li>
-                <a href="/categories/生活/">
-                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                  生活
-                </a>
-              </li>
-            
-              <li>
-                <a href="/categories/资源/">
-                  <i class="fa fa-cloud-download" aria-hidden="true"></i>
-                  资源
-                </a>
-              </li>
-            
-              <li>
-                <a href="/categories/随想/">
-                  <i class="fa fa-commenting-o" aria-hidden="true"></i>
-                  随想
-                </a>
-              </li>
-            
-              <li>
-                <a href="/categories/转载/">
-                  <i class="fa fa-book" aria-hidden="true"></i>
-                  转载
-                </a>
-              </li>
-            
-          </ul>
-        
-      </li>
-    
-      <li>
-        <a href="javascript:;">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
-            娱乐
-          </span>
-        </a>
-        
-          <ul class="sub-menu">
-            
-              <li>
-                <a href="/tags/悦读/">
-                  <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
-                  影音
-                </a>
-              </li>
-            
-              <li>
-                <a href="/bangumi/">
-                  <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
-                  图文
-                </a>
-              </li>
-            
-              <li>
-                <a href="/music/">
-                  <i class="fa fa-headphones" aria-hidden="true"></i>
-                  消遣
-                </a>
-              </li>
-            
-              <li>
-                <a href="/tags/图集/">
-                  <i class="fa fa-photo" aria-hidden="true"></i>
-                  游戏
-                </a>
-              </li>
-            
-          </ul>
-        
-      </li>
-    
-      <li>
-        <a href="/comment/">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
-            留言板
-          </span>
-        </a>
-        
-      </li>
-    
-      <li>
-        <a href="/links/">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
-            友人帐
-          </span>
-        </a>
-        
-      </li>
-    
-      <li>
-        <a href="/donate/">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
-            赞赏
-          </span>
-        </a>
-        
-      </li>
-    
-      <li>
-        <a href="/">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
-            关于
-          </span>
-        </a>
-        
-          <ul class="sub-menu">
-            
-              <li>
-                <a href="/about/">
-                  <i class="fa fa-meetup" aria-hidden="true"></i>
-                  我？
-                </a>
-              </li>
-            
-              <li>
-                <a href="/theme-sakura/">
-                  <i class="fa iconfont icon-sakura" aria-hidden="true"></i>
-                  主题
-                </a>
-              </li>
-            
-              <li>
-                <a href="/lab/">
-                  <i class="fa fa-cogs" aria-hidden="true"></i>
-                  Lab
-                </a>
-              </li>
-            
-          </ul>
-        
-      </li>
-    
-      <li>
-        <a href="/client/">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
-            客户端
-          </span>
-        </a>
-        
-      </li>
-    
-      <li>
-        <a href="/atom.xml">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
-            RSS
-          </span>
-        </a>
-        
-      </li>
-    
-  </ul>
-  <p style="text-align: center; font-size: 13px; color: #b9b9b9;">&copy 2019 hexo-sakura</p>
-</div>
-<button onclick="topFunction()" class="mobile-cd-top" id="moblieGoTop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
-<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
-<style>
-  .aplayer .aplayer-lrc {
-    height: 35px;
-  }
-  .aplayer .aplayer-lrc p{
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 18px !important;
-  }
-  .aplayer .aplayer-lrc p.aplayer-lrc-current{
-    color: #FF1493;
-  }
-  .aplayer.aplayer-narrow .aplayer-body{
-    left: -66px !important;
-  }
-  .aplayer.aplayer-fixed .aplayer-lrc {
-    display: none;
-  }
-  .aplayer .aplayer-lrc.aplayer-lrc-hide {
-      display:none !important;
-  }
-  .aplayer.aplayer-fixed .lrc-show {
-    display: block;
-    background: rgba(255, 255, 255, 0.8);
-  }
-</style>
-<div class="aplayer"
-
-    data-id="2893827247"
-
-    data-server="netease"
-
-    data-type="playlist"
-
-    data-fixed="true"
-
-    data-autoplay="false"
-
-    data-loop="all"
-
-    data-order="random"
-
-    data-preload="auto"
-
-    data-volume="0.7"
-
-    data-mutex="true"
-
-</div>
-<script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script>
+</footer>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/lozad.js"></script>
+<script src="/js/jquery.share.min.js"></script>
+<script src="/js/CodeLineHeight.js"></script>
+<script src="/js/activate-power-mode.js"></script>
+<script src="/js/xiaomai.js"></script>
+<script src="/js/zoom.min.js"></script>
+<script src="/js/jquery.fancybox.min.js"></script>
+<script src="/js/InsightSearch.js"></script>
+<script src="/js/SimpleCore.js"></script>
+<!-- <script src="/js/loading.js"></script> -->
+<!-- <script src="/js/APlayer.js"></script> -->
+<!-- <script src="/js/aplayerdemo.js"></script> -->
 <script>
-  $(function(){
-    $('body').on('click', '.aplayer', function(){
-      if($('.aplayer-button').hasClass('aplayer-play')) {
-        $('.aplayer-lrc').removeClass('lrc-show');
-      } else {
-        $('.aplayer-lrc').addClass('lrc-show');
-      }
-    })
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?15e55c3816abfbc912d5cb0d9000a2d4";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+(function() {
+  var arr = new Array();
+  var $tags = $('.post-tags').children('a');
+  $tags.each(function() {
+    arr.push($(this).html())
+  })
+  $('.fancybox').fancybox({
+    padding: 0,
+    loop: false
   });
+})();
+</script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https'){
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else{
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</div>
+<div id="spig" class="spig">
+    <div id="message"></div>
+    <div id="xiaomai"></div>
+</div>
+<div class="fixed-xm">
+    <img src="/images/xiaomai/xm.png">
+    <audio src="/images/xiaomai/xm.mp3" id="xm_audio" preload="auto" style="display:none;"></audio>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        SimpleCore.init({
+            buildingTime: '04/24/2017',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            customImg: 'https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvgy1ftpw8983bjj308c08c77h.jpg',
+            tipImg: 'https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/custom/donate/WeChanSQ.jpg',
+        });
+        const observer = lozad();
+        observer.observe();
+
+        
+        //打字特效
+        POWERMODE.colorful = true; // make power mode colorful
+        POWERMODE.shake = false; // turn off shake
+        document.body.addEventListener('input', POWERMODE);
+
+        //为超链接加上target='_blank'属性  
+        $('a[href^="http"]').each(function() {  
+            $(this).attr('target', '_blank');  
+        });
+
+        // window.onblur = function (){ 
+        //     document.title = '快回来学习~'; 
+        // };
+        // window.onfocus = function (){ 
+        //     document.title = 'hojun-好少年光芒万丈！'; 
+        // }; 
+    });
 </script>
 </body>
 </html>

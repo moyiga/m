@@ -1,846 +1,160 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-  
-  <title itemprop="name">给hexo的jsimple主题添加代码高亮 | Moyi.ga(魔艺.咖)</title>
-  
-    <link rel="shortcut icon" href="/images/favicon.ico">
-  
-  <meta http-equiv="x-dns-prefetch-control" content="on">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+SerifMerriweather|Merriweather+Sans|Source+Code+Pro|Ubuntu:400,700|Noto+Serif+SC" media="all">
-  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
-  <link rel="stylesheet" id="saukra_css-css" href="/css/style.css" type="text/css" media="all">
-  <link rel="stylesheet" href="/css/lib.min.css" media="all">
-  <link rel="stylesheet" href="/css/font.css" media="all">
-  <link rel="stylesheet" href="/css/insight.css" media="all">
-  <link rel="stylesheet" href="/css/jquery.fancybox.min.css" media="all">
-  <link rel="stylesheet" href="/css/zoom.css" media="all">
-  <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
-<!--   <link rel="stylesheet" id="saukra_css-css" href="https://2heng.xin/wp-content/cache/autoptimize/css/autoptimize_ad42a61f4c7d4bdd9f91afcff6b5dda5.css
-" type="text/css" media="all"> -->
-  <script>
-  /*Initial Variables*/
-  var mashiro_option = new Object();
-  var mashiro_global = new Object();
-  mashiro_option.NProgressON = true;
-  /* 
-   * 邮箱信息之类的东西可以填在这里，这些js变量基本都作用于sakura-app.js
-   * 这样的设置仅是为了方便在基于PHP开发的主题中设置js变量，既然移植到了Node上，我想或许可以精简这一逻辑吧
-   */
-  mashiro_option.email_domain = "";
-  mashiro_option.email_name = "";
-  mashiro_option.cookie_version_control = "";
-  mashiro_option.qzone_autocomplete = false;
-  mashiro_option.site_name = "Moyi.ga(魔艺.咖)Moyi.ga(魔艺.咖)";
-  mashiro_option.author_name = "Moyi.ga(魔艺.咖)";
-  mashiro_option.site_url = "https://moruan.gq";
-  mashiro_option.v_appId = "GyC3NzMvd0hT9Yyd2hYIC0MN-gzGzoHsz";
-  mashiro_option.v_appKey = "mgOpfzbkHYqU92CV4IDlAUHQ";
-  mashiro_option.mathjax = "0";
-  mashiro_option.qq_api_url = "https://api.mashiro.top/qqinfo/"; 
-  mashiro_option.qq_avatar_api_url = "https://api.mashiro.top/qqinfo/";
+<!DOCTYPE HTML>
+<html class="no-js" lang="zh-CN">
 
-  // mashiro_option.jsdelivr_css_src = "https://cdn.jsdelivr.net/gh/moezx/cdn@3.4.5/css/lib.min.css";
-  // mashiro_option.float_player_on = true;
-
-  /*End of Initial Variables*/
-  </script>
-  <script type="text/javascript">
-  var bg = "https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(1).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(2).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(3).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(4).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(5).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(6).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(7).jpg.webp,https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/cover/(8).jpg.webp".split(",");
-  var bgindex = Math.floor(Math.random()*bg.length);
-  if (!!window.ActiveXObject || "ActiveXObject" in window) { //is IE?
-    alert('朋友，IE浏览器未适配哦~');
-  }
-  </script>
-  <style type="text/css">
-  .hljs-ln{border-collapse:collapse}.hljs-ln td{padding:0}.hljs-ln-n:before{content:attr(data-line-number)}
-  </style>
-  <style type="text/css">.site-top .lower nav{display:block !important;}.author-profile i,.post-like a,.post-share .show-share,.sub-text,.we-info a,span.sitename,.post-more i:hover,#pagination a:hover,.post-content a:hover,.float-content i:hover{color:#FE9600}.feature i,.download,.navigator i:hover,.links ul li:before,.ar-time i,span.ar-circle,.object,.comment .comment-reply-link,.siren-checkbox-radio:checked + .siren-checkbox-radioInput:after{background:#FE9600}::-webkit-scrollbar-thumb{background:#FE9600}.download,.navigator i:hover,.link-title,.links ul li:hover,#pagination a:hover,.comment-respond input[type='submit']:hover{border-color:#FE9600}.entry-content a:hover,.site-info a:hover,.comment h4 a,#comments-navi a.prev,#comments-navi a.next,.comment h4 a:hover,.site-top ul li a:hover,.entry-title a:hover,#archives-temp h3,span.page-numbers.current,.sorry li a:hover,.site-title a:hover,i.iconfont.js-toggle-search.iconsearch:hover,.comment-respond input[type='submit']:hover{color:#FE9600}.comments .comments-main{display:block !important;}.comments .comments-hidden{display:none !important;}background-position:center center;background-attachment:inherit;}
-  </style>
-</head>
-</html>
-<body class="page-template page-template-user page-template-page-analytics page-template-userpage-analytics-php page page-id-1297 chinese-font serif isWebKit">
-  <div class="scrollbar" id="bar">
-  </div>
-  <a href="#" class="cd-top faa-float animated"></a>
-  <section id="main-container">
-    <div class="headertop filter-dot">
-  <div id="banner_wave_1"></div>
-  <div id="banner_wave_2"></div>
-  <figure id="centerbg" class="centerbg">
-    <div class="focusinfo no-select">
-      <div class="header-tou">
-        <a href="https://moruan.gq">
-          <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/custom/avatar.jpg">
-        </a>
-      </div>
-      <div class="header-info">
-        <p>Moyi.ga(魔艺.咖)一个带你玩转手机与电脑的网站</p>
-        <div class="top-social_v2">
-          <li id="bg-pre">
-            <img class="flipx" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
-          </li>
-          
-            
-              
-                <li>
-                  <a href="http://qr02.cn/BHKrgz" target="_blank" class="social-github" title="github">
-                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/social/github.png">
-                  </a>
-                </li>
-              
-            
-              
-                <li>
-                  <a href="https://weibo.com/bznd" target="_blank" class="social-github" title="sina">
-                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/social/sina.png">
-                  </a>
-                </li>
-              
-            
-              
-                <li>
-                  <a href="https://music.163.com/#/discover/toplist?id=3778678" target="_blank" class="social-github" title="wangyiyun">
-                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/social/wangyiyun.png">
-                  </a>
-                </li>
-              
-            
-              
-                <li>
-                  <a href="https://zhuanlan.zhihu.com/p/24763104" target="_blank" class="social-github" title="zhihu">
-                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/social/zhihu.png">
-                  </a>
-                </li>
-              
-            
-              
-                <li>
-                  <a href="https://www.jianshu.com/p/9ad46448c8eb" target="_blank" class="social-github" title="email">
-                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/social/email.svg">
-                  </a>
-                </li>
-              
-            
-              
-                <li class="wechat">
-                  <a href="/#">
-                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/social/wechat.png">
-                  </a>
-                  <div class="wechatInner">
-                    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/custom/wechat.jpg">
-                  </div>
-                </li>
-              
-            
-          
-          <li id="bg-next">
-            <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/next-b.svg">
-          </li>
-        </div>
-      </div>
-    </div>
-  </figure>
-  <div id="video-container" style="">
-    <video style="object-fit: fill" id="bgvideo" class="video" video-name="" src="" width="auto" preload="auto">
-    </video>
-    <div id="video-btn" class="loadvideo videolive">
-    </div>
-    <div id="video-add">
-    </div>
-    <div class="video-stu">
-    </div>
-  </div>
-  <div class="headertop-down faa-float animated" onclick="headertop_down()">
-    <span>
-      <i class="fa fa-chevron-down" aria-hidden="true">
-      </i>
-    </span>
-  </div>
-</div>
-    <div id="page" class="site wrapper">
-      <header class="site-header no-select gizle sabit" role="banner">
-  <div class="site-top">
-    <div class="site-branding">
-      <span class="site-title">
-        <span class="logolink moe-mashiro">
-          <a href="/">
-            <span class="sakurasono">Moyi.ga(魔艺.咖)</span>
-            <span class="shironeko">Moyi.ga(魔艺.咖)</span>
-          </a>
-        </span>
-      </span>
-    </div>
-    <div class="searchbox search-form-submit">
-      <i class="iconfont js-toggle-search iconsearch icon-search">
-      </i>
-    </div>
-    <div id="show-nav" class="showNav mobile-fit">
-      <div class="line line1">
-      </div>
-      <div class="line line2">
-      </div>
-      <div class="line line3">
-      </div>
-    </div>
-    <div class="lower-cantiner">
-      <div class="lower">
-        <nav class="mobile-fit-control hide">
-          <ul id="menu-new" class="menu">
-            
-              <li>
-                <a href="/">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
-                    首页
-                  </span>
-                </a>
-                
-              </li>
-            
-              <li>
-                <a href="/archives">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
-                    归档
-                  </span>
-                </a>
-                
-                  <ul class="sub-menu">
-                    
-                      <li>
-                        <a href="/categories/技术/">
-                          <i class="fa fa-code" aria-hidden="true"></i>
-                          技术
-                        </a>
-                      </li>
-                    
-                      <li>
-                        <a href="/categories/生活/">
-                          <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                          生活
-                        </a>
-                      </li>
-                    
-                      <li>
-                        <a href="/categories/资源/">
-                          <i class="fa fa-cloud-download" aria-hidden="true"></i>
-                          资源
-                        </a>
-                      </li>
-                    
-                      <li>
-                        <a href="/categories/随想/">
-                          <i class="fa fa-commenting-o" aria-hidden="true"></i>
-                          随想
-                        </a>
-                      </li>
-                    
-                      <li>
-                        <a href="/categories/转载/">
-                          <i class="fa fa-book" aria-hidden="true"></i>
-                          转载
-                        </a>
-                      </li>
-                    
-                  </ul>
-                
-              </li>
-            
-              <li>
-                <a href="javascript:;">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
-                    娱乐
-                  </span>
-                </a>
-                
-                  <ul class="sub-menu">
-                    
-                      <li>
-                        <a href="/tags/悦读/">
-                          <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
-                          影音
-                        </a>
-                      </li>
-                    
-                      <li>
-                        <a href="/bangumi/">
-                          <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
-                          图文
-                        </a>
-                      </li>
-                    
-                      <li>
-                        <a href="/music/">
-                          <i class="fa fa-headphones" aria-hidden="true"></i>
-                          消遣
-                        </a>
-                      </li>
-                    
-                      <li>
-                        <a href="/tags/图集/">
-                          <i class="fa fa-photo" aria-hidden="true"></i>
-                          游戏
-                        </a>
-                      </li>
-                    
-                  </ul>
-                
-              </li>
-            
-              <li>
-                <a href="/comment/">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
-                    留言板
-                  </span>
-                </a>
-                
-              </li>
-            
-              <li>
-                <a href="/links/">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
-                    友人帐
-                  </span>
-                </a>
-                
-              </li>
-            
-              <li>
-                <a href="/donate/">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
-                    赞赏
-                  </span>
-                </a>
-                
-              </li>
-            
-              <li>
-                <a href="/">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
-                    关于
-                  </span>
-                </a>
-                
-                  <ul class="sub-menu">
-                    
-                      <li>
-                        <a href="/about/">
-                          <i class="fa fa-meetup" aria-hidden="true"></i>
-                          我？
-                        </a>
-                      </li>
-                    
-                      <li>
-                        <a href="/theme-sakura/">
-                          <i class="fa iconfont icon-sakura" aria-hidden="true"></i>
-                          主题
-                        </a>
-                      </li>
-                    
-                      <li>
-                        <a href="/lab/">
-                          <i class="fa fa-cogs" aria-hidden="true"></i>
-                          Lab
-                        </a>
-                      </li>
-                    
-                  </ul>
-                
-              </li>
-            
-              <li>
-                <a href="/client/">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
-                    客户端
-                  </span>
-                </a>
-                
-              </li>
-            
-              <li>
-                <a href="/atom.xml">
-                  <span class="faa-parent animated-hover">
-                    <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
-                    RSS
-                  </span>
-                </a>
-                
-              </li>
-            
-          </ul>
-        </nav>
-      </div>
-    </div>
-  </div>
-</header>
-
-      <link rel="stylesheet" type="text/css" href="/css/sharejs.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.css">
-<div class="pattern-center-blank"></div>
-
-<div id="content" class="site-content">
-  <div id="primary" class="content-area">
-    <main id="main" class="site-main" role="main">
-      <article id="post-1" class="post-1 post type-post status-publish format-standard has-post-thumbnail hentry category-uncategorized">
-        <div class="toc"></div>
-        <!--<div class="toc-entry-content"><!-- 套嵌目录使用（主要为了支援评论）-->
-        
-          <header class="entry-header">
-            <h1 class="entry-title">给hexo的jsimple主题添加代码高亮</h1>
-            <p class="entry-census">hojun&nbsp;·&nbsp;2017-7-2&nbsp;·&nbsp;<span id="busuanzi_value_page_pv"></span>次阅读</p></p>
-
-            <hr>
-          </header>
-        
-        <div class="entry-content">
-          <p>周末在家无所事事，想起来博客代码块的高亮支持不是很好，于是根据作者推荐的<a href="https://github.com/iTimeTraveler/hexo-theme-hipaper" target="_blank" rel="noopener">hipaper</a>去get。<br>对比了Hipaper和Jsimple老半天有几点发现。</p>
-<ol>
-<li>Jsimple使用ejs模板</li>
-<li>Hipaper使用ejs模板，css采用stylus框架。<small>&lt;之前只听说过less和sass,又涨姿势了~~~&gt;<small></small></small></li>
-</ol>
-<p>在浏览器端f12审核元素发现两个模板生成的html元素有些区别。然后就花了大量时间去找hexo是怎么把代码块自动解析成对应的html代码的。<br>后来在hexo群里求助得知由hexo自带highlight插件生成。这位热心的<a href="https://github.com/liaobinbin" target="_blank" rel="noopener">大神</a>顺手帮我搞了高亮的css代码，之后也在<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank" rel="noopener">jsimple</a>仓库pr了代码。<br>得到css后依据自己的博客进行些小改动，添加了night版。然后愉快的给博客添加了代码高亮。</p>
-<p><font color="red">注意配置文件这里：<font></font></font></p>
-<pre><code class="cof">highlight:
-  enable: true //开启高亮
-  line_number: true //显示行号
-  auto_detect: false
-  tab_replace:
-</code></pre>
-<p>修改之后生效需要执行</p>
-<pre><code>//清除缓存文件 (db.json) 和已生成的静态文件 (public)。
-hexo clean
-//重新生成
-hexo g
-</code></pre><p>这里贴出代码仅供参考：<font color="#d35400">自己改了些东西，不知道适不适用<font></font></font></p>
-<pre><code class="css">.markdown-body code,.markdown-body tt
-{
-    padding:0;padding-top:.2em;padding-bottom:.2em;margin:0;font-size:85%;background-color:rgba(0,0,0,0.04);border-radius:3px
-}
-.markdown-body code::before,.markdown-body code::after,.markdown-body tt::before,.markdown-body tt::after
-{
-    letter-spacing:-0.2em;content:&quot;\00a0&quot;
-}
-.markdown-body code br,.markdown-body tt br
-{
-    display:none
-}
-.markdown-body del code
-{
-    text-decoration:inherit
-}
-.markdown-body pre
-{
-    word-wrap:normal
-}
-.markdown-body pre&gt;code
-{
-    padding:0;margin:0;font-size:100%;word-break:normal;white-space:pre;background:transparent;border:0
-}
-.markdown-body .highlight
-{
-    margin-bottom:16px
-}
-.markdown-body .highlight pre
-{
-    margin-bottom:0;word-break:normal
-}
-.markdown-body pre,
-.markdown-body .highlight {
-  background: #f8f8f8;
-  margin: 15px 0;
-  padding: 15px 20px;
-  border-style: solid;
-  border-color: #eef1f8;
-  border-width: 1px 0;
-  overflow: auto;
-  color: #4d4d4c;
-  line-height: 22.400000000000002px;
-}
-.markdown-body .highlight .gutter pre,
-.markdown-body .gist .gist-file .gist-data .line-numbers {
-  color: #666;
-  font-size: 0.85em;
-}
-.markdown-body pre,
-.markdown-body code {
-  font-family: &quot;Source Code Pro&quot;, Consolas, Monaco, Menlo, Consolas, monospace;
-}
-.markdown-body code {
-  background: rgba(208,211,248,0.2);
-  color: #333;
-  padding: 0 0.3em;
-}
-.markdown-body pre code {
-  background: none;
-  text-shadow: none;
-  padding: 0;
-}
-.markdown-body .highlight pre {
-  border: none;
-  margin: 0;
-  padding: 0;
-}
-.markdown-body .highlight table {
-  margin: 0;
-  width: auto;
-  border: none;
-}
-.markdown-body .highlight td {
-  border: none;
-  padding: 0;
-}
-.markdown-body .highlight figcaption {
-  font-size: 0.85em;
-  color: #8e908c;
-  line-height: 1em;
-  margin-bottom: 1em;
-}
-.markdown-body .highlight figcaption:before,
-.markdown-body .highlight figcaption:after {
-  content: &quot;&quot;;
-  display: table;
-}
-.markdown-body .highlight figcaption:after {
-  clear: both;
-}
-.markdown-body .highlight figcaption a {
-  float: right;
-}
-.markdown-body .highlight .gutter pre {
-  text-align: right;
-  padding-right: 20px;
-}
-.markdown-body .highlight .line {
-  /*height: 22.400000000000002px;*/
-}
-.markdown-body .highlight .line.marked {
-  background: #d6d6d6;
-}
-.markdown-body .gist {
-  margin: 0 -20px;
-  border-style: solid;
-  border-color: #eef1f8;
-  border-width: 1px 0;
-  background: #f8f8f8;
-  padding: 15px 20px 15px 0;
-}
-.markdown-body .gist .gist-file {
-  border: none;
-  font-family: &quot;Source Code Pro&quot;, Consolas, Monaco, Menlo, Consolas, monospace;
-  margin: 0;
-}
-.markdown-body .gist .gist-file .gist-data {
-  background: none;
-  border: none;
-}
-.markdown-body .gist .gist-file .gist-data .line-numbers {
-  background: none;
-  border: none;
-  padding: 0 20px 0 0;
-}
-.markdown-body .gist .gist-file .gist-data .line-data {
-  padding: 0 !important;
-}
-.markdown-body .gist .gist-file .highlight {
-  margin: 0;
-  padding: 0;
-  border: none;
-}
-.markdown-body .gist .gist-file .gist-meta {
-  background: #f8f8f8;
-  color: #8e908c;
-  font: 0.85em -apple-system, &quot;Arial&quot;, BlinkMacSystemFont, &quot;Segoe UI&quot;, &quot;Roboto&quot;, &quot;Oxygen&quot;, &quot;Ubuntu&quot;, &quot;Cantarell&quot;, &quot;Fira Sans&quot;, &quot;Droid Sans&quot;, &quot;Helvetica Neue&quot;, sans-serif;
-  text-shadow: 0 0;
-  padding: 0;
-  margin-top: 1em;
-  margin-left: 20px;
-}
-.markdown-body .gist .gist-file .gist-meta a {
-  color: color-link;
-  font-weight: normal;
-}
-.markdown-body .gist .gist-file .gist-meta a:hover {
-  text-decoration: underline;
-}
-pre .comment,
-pre .title {
-  color: #8e908c; 
-}
-pre .variable,
-pre .attribute,
-pre .tag,
-pre .regexp,
-pre .ruby .constant,
-pre .xml .tag .title,
-pre .xml .pi,
-pre .xml .doctype,
-pre .html .doctype,
-pre .css .id,
-pre .css .class,
-pre .css .pseudo {
-  color: #c82829;
-}
-pre .number,
-pre .preprocessor,
-pre .built_in,
-pre .literal,
-pre .params,
-pre .constant {
-  color: #fd971f;
-}
-pre .class,
-pre .ruby .class .title,
-pre .css .rules .attribute {
-  color: #718c00;
-}
-pre .string,
-pre .value,
-pre .inheritance,
-pre .header,
-pre .ruby .symbol,
-pre .xml .cdata {
-  color: #718c00;
-}
-pre .css .hexcolor {
-  color: #3e999f;
-}
-pre .function,
-pre .python .decorator,
-pre .python .title,
-pre .ruby .function .title,
-pre .ruby .title .keyword,
-pre .perl .sub,
-pre .javascript .title,
-pre .coffeescript .title {
-  color: #4271ae;
-}
-pre .keyword,
-pre .javascript .function {
-  color: #8959a8;
-}
-pre {
-  color: #525252;
-}
-pre .function .keyword,
-pre .constant {
-  color: #0092db;
-}
-pre .keyword,
-pre .attribute {
-  color: #f92672;
-}
-pre .number,
-pre .literal {
-  color: #ae81ff;
-}
-pre .tag,
-pre .tag .title,
-pre .change,
-pre .winutils,
-pre .flow,
-pre .lisp .title,
-pre .clojure .built_in,
-pre .nginx .title,
-pre .tex .special {
-  color: #2973b7;
-}
-pre .symbol,
-pre .symbol .string,
-pre .value,
-pre .regexp {
-  color: #42b983;
-}
-pre .title {
-  color: #a6e22e;
-}
-pre .tag .value,
-pre .string,
-pre .subst,
-pre .haskell .type,
-pre .preprocessor,
-pre .ruby .class .parent,
-pre .built_in,
-pre .sql .aggregate,
-pre .django .template_tag,
-pre .django .variable,
-pre .smalltalk .class,
-pre .javadoc,
-pre .django .filter .argument,
-pre .smalltalk .localvars,
-pre .smalltalk .array,
-pre .attr_selector,
-pre .pseudo,
-pre .addition,
-pre .stream,
-pre .envvar,
-pre .apache .tag,
-pre .apache .cbracket,
-pre .tex .command,
-pre .prompt {
-  color: #42b983;
-}
-pre .comment,
-pre .java .annotation,
-pre .python .decorator,
-pre .template_comment,
-pre .pi,
-pre .doctype,
-pre .shebang,
-pre .apache .sqbracket,
-pre .tex .formula {
-  color: #b3b3b3;
-}
-pre .deletion {
-  color: #ba4545;
-}
-pre .coffeescript .javascript,
-pre .javascript .xml,
-pre .tex .formula,
-pre .xml .javascript,
-pre .xml .vbscript,
-pre .xml .css,
-pre .xml .cdata {
-  opacity: 0.5;
-}
-.night-mode .markdown-body h2
-{
-    border-color:#2f2f2f
-}
-.night-mode .markdown-body hr
-{
-    background-color:#2f2f2f
-}
-.night-mode .markdown-body,.night-mode .markdown-body p
-{
-    color:#999
-}
-.night-mode .markdown-body a
-{
-    color:#3dbcf5
-}
-.night-mode .markdown-body a:hover
-{
-    color:#4094c7
-}
-.markdown-body figure,.markdown-body pre,.markdown-body code,.markdown-body tr,.markdown-body table,.markdown-body tbody,.markdown-body table td
-{
-    background-color:#f8f8f8;
-}
-.night-mode figure,.night-mode pre,.night-mode code,.night-mode blockquote,.night-mode tr,.night-mode table,.night-mode tbody,.night-mode table td
-{
-    background-color:#555!important;border-color:#555!important;color:#fff!important;
-}
-.night-mode blockquote{
-    border-color:#ddd!important;
-}
-</code></pre>
-
-        </div>
-        <!-- .entry-content -->
-        <div class="single-reward">
-          <div class="reward-open">赏<div class="reward-main">
-              <ul class="reward-row">
-                <li class="alipay-code"><img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/custom/donate/AliPayQR.jpg"></li>
-                <li class="wechat-code"><img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/custom/donate/WeChanQR.jpg"></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div style="text-align:center; width: 100%" class="social-share share-mobile" data-disabled="diandian, tencent"></div>
-        <footer class="post-footer">
-          <div class="post-lincenses"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="nofollow"><i class="fa fa-creative-commons" aria-hidden="true"></i> 知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></div>
-          <div class="post-tags">
-          </div>
-          <div class="post-share">
-            <div class="social-share sharehidden share-component"></div>
-            <i class="iconfont show-share icon-forward"></i>
-          </div>
-        </footer><!-- .entry-footer -->
-      </article>
-      <!-- #post-## -->
-      <div class="toc" style="background: none;"></div>
-      <section class="post-squares nextprev">
-        
-          
-            <div class="post-nepre half previous">
-          
-            <a href="/2017/07/03/给博客添加网易云跟帖评论/" rel="prev">
-              <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://wx3.sinaimg.cn/orj360/006bYVyvgy1fh83qsruxnj30hg0fdgtz.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://wx3.sinaimg.cn/orj360/006bYVyvgy1fh83qsruxnj30hg0fdgtz.jpg">
-              </div>
-              <span class="label">
-              Previous Post</span>
-              <div class="info">
-                <h3>
-                给博客添加网易云跟帖评论</h3>
-                <hr>
-              </div>
-            </a>
-          </div>
-        
-        
-          
-            <div class="post-nepre half next">
-          
-            <a href="/2017/07/01/给博客添加自己的域名/" rel="next">
-              <div class="background">
-                <img class="lazyload" src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/loader/orange.progress-bar-stripe-loader.svg" data-src="https://wx1.sinaimg.cn/small/006bYVyvgy1fh9c6vlje2j30xc0m80th.jpg" style="width: 100%; height: 100%; object-fit: cover; pointer-events: none;" onerror="imgError(this,3)" src="https://wx1.sinaimg.cn/small/006bYVyvgy1fh9c6vlje2j30xc0m80th.jpg">
-              </div>
-              <span class="label">
-              Next Post</span>
-              <div class="info">
-                <h3>
-                给博客添加个人域名</h3>
-                <hr>
-              </div>
-            </a>
-          </div>
-        
-      </section>
-      
-<div id="vcomments"></div>
+<head>
+    <!--[if lte IE 9]>
+<meta http-equiv="refresh" content="0;url=https://www.hojun.cn/warn.html">
+<![endif]-->
+<!-- <script language=javascript> 
+ if (document.domain =='coding.hojun.cn')  
+     this.location = "https://www.hojun.cn" + this.location.pathname + this.location.search; 
+</script> -->
 <script>
-  window.onload = function(){
-      var valine = new Valine();
-      valine.init({
-        el: '#vcomments',
-        appId: "GyC3NzMvd0hT9Yyd2hYIC0MN-gzGzoHsz",
-        appKey: "mgOpfzbkHYqU92CV4IDlAUHQ",
-        path: window.location.pathname,
-        placeholder: "你是我一生只会遇见一次的惊喜 ..."
-      })
-  }
+  (function(d) {
+    var config = {
+      kitId: 'lsb6vmc',
+      scriptTimeout: 3000000,
+      async: true
+    },
+    h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+  })(document);
 </script>
+<meta charset="utf-8">
 
-      <section class="author-profile">
-        <div class="info" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-          <a href="/about/hojun.html" class="profile gravatar"><img src="https://wx1.sinaimg.cn/large/006bYVyvgy1ftand2qurdj303c03cdfv.jpg" itemprop="image" alt="hojun" height="70" width="70"></a>
-          <div class="meta">
-            <span class="title">Author</span>
-            <h3 itemprop="name">
-            <a href="/about/hojun.html" itemprop="url" rel="author">hojun</a>
-            </h3>
-          </div>
-        </div>
-        <hr>
-        <p><i class="iconfont icon-write"></i></p>
-      </section>
-    </main><!-- #main -->
-  </div><!-- #primary -->
+<link rel="canonical" href="https://www.hojun.com/2017/07/02/给hexo的jsimple主题添加代码高亮/"/>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+<meta http-equiv="mobile-agent" content="format=html5; url=https://www.hojun.cn">
+<meta name="author" content="hojun">
+<link rel="stylesheet" href="/css/SimpleStyle.css">
+<!-- <link rel="stylesheet" href="/css/loading.css"> -->
+<link rel="stylesheet" href="/css/xiaomai.css">
+<link rel="stylesheet" href="/css/share.min.css">
+<link rel="stylesheet" href="/css/zoom.css">
+<link rel="stylesheet" href="/css/jquery.fancybox.min.css">
+<link rel="stylesheet" href="/css/iconfont/iconfont.css">
+
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvgy1ftoufg1c8fj300g00g3yb.jpg">
+
+
+<title>给hexo的jsimple主题添加代码高亮 - hojun</title>
+
+<meta name="keywords" content="jsimple代码高亮">
+
+<meta name="description " content="好少年光芒万丈">
+<meta name="baidu-site-verification" content="0hxFvBRyRY" />
+
+    
+    <!-- 自动广告 -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-5634033670687375",
+            enable_page_level_ads: true
+        });
+    </script>
+
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://ziyuan.baidu.com/contexts/cambrian.jsonld",
+        "@id": "https://www.hojun.com/2017/07/02/给hexo的jsimple主题添加代码高亮/",
+        "appid": "1594654793276567",
+        "title": "给hexo的jsimple主题添加代码高亮",
+        "pubDate": "2017-07-02T11:13:33"
+    }
+    </script>
+    <script src="//msite.baidu.com/sdk/c.js?appid=1594654793276567"></script>
+</head>
+<body>
+<div id="loading">
+	<div id="loading-center">
+		<div id="loading-center-absolute">
+			<div class="object" id="object_five"></div>
+			<div class="object" id="object_four"></div>
+			<div class="object" id="object_three"></div>
+			<div class="object" id="object_two"></div>
+			<div class="object" id="object_one"></div>
+		</div>
+	</div>
 </div>
-
-
-
-    </div>    
+<div id="nav">
+    <nav class="nav-menu">
+        <a class="site-name current" href="/" title="HJ">HJ</a>
+        <a class="site-index current" href="/"><i class="fa fa-home"></i><span>首页</span></a>
+        <a href="/archives/" title="归档"><i class="fa fa-archives"></i><span>归档</span></a>
+        <a href="/tags/" title="标签"><i class="fa fa-tags"></i><span>标签</span></a>
+        <!-- <a href="/rss" title="RSS Feed"><i class="fa fa-rss"></i><span>RSS Feed</span></a> -->
+        <a href="/tags/悦读/" title="悦读"><i class="fa fa-book"></i><span>悦读</span></a>
+        <a href="/tags/图集/" title="图集"><i class="fa fa-photo"></i><span>图集</span></a>
+        <a href="/music/" title="音乐"><i class="fa fa-music"></i><span>音乐</span></a>
+        <a href="/video/" title="视频"><i class="fa fa-video-camera"></i><span>视频</span></a>
+        <a href="/tags/资源/" title="资源"><i class="fa fa-cloud"></i><span>资源</span></a>
+        <a href="/links/" title="友链"><i class="fa fa-link"></i><span>友链</span></a>
+        <a href="/2018/08/06/好少年光芒万丈/" title="签到"><i class="fa fa-hand-peace-o"></i><span>签到</span></a>
+        <a href="/help/" title="关于"><i class="fa fa-question-circle"></i><span>关于</span></a>
+        <!-- <div id="player2" class="aplayer" style="position: absolute; bottom:0px; width:45px; height:45px; margin:0px;" class="aplayer"></div> -->
+    </nav>
+        <!--<div id="player5" class="aplayer" style="position: fixed; bottom:0px; width:100%; height:auto; margin:0px;" class="aplayer"></div>--!>
+</div>
+<div class="nav-user">
+    <a class="btn-search" href="#"><i class="fa fa-search"></i></a>
+    <a class="btn-read-mode" href="#"><i class="fa fa-sun-o"></i></a>
+    <a class="btn-weixin-mp" href="http://author.baidu.com/home/1594654793276567"><i class="fa fa-paw"></i></a>
+</div>
+<div id="wrapper" class="clearfix">
+    <div id="body">
+        <div class="main" id="main">
+            <div id="cover">
+    <div class="cover-img"></div>
+    <div class="cover-info">
+        <a href="/about_hojun.html"><img title="好少年光芒万丈" class="avatar" width="72" src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvgy1ftand2qurdj303c03cdfv.jpg" alt="avatar" /></a>
+        <h1>hojun</h1>
+        <h3>hello ，stranger</h3>
+        <p>一个好奇的博客</p>
+        <div class="cover-sns">
+            <div class="btn btn-weixin">
+                <a class="" href="javascript:"><i class="fa fa-weixin"></i></a>
+                <div class="qrcode"><img src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvgy1ftan8chgw0j302s02s3yh.jpg" alt="weixinQrcode" /></div>
+                <div class="qrcode-arrow"></div>
+            </div>
+            <div class="btn btn-weibo">
+                <a href="https://weibo.com/5673857615/profile?topnav=1&amp;wvr=6&amp;is_all=1" target="_blank" rel="nofollow"><i class="fa fa-weibo"></i></a>
+            </div>
+            <div class="btn btn-qq">
+                <a href="https://wpa.qq.com/msgrd?v=3&amp;uin=954655431&amp;site=qq&amp;menu=yes"  target="_blank" rel="nofollow"><i class="fa fa-qq"></i></a>
+            </div>
+            <div class="btn btn-github">
+                <a href="https://github.com/honjun"  target="_blank" rel="nofollow"><i class="fa fa-github"></i></a>
+            </div>
+            <div class="btn btn-bili">
+                <a href="https://space.bilibili.com/271849279/#/"  target="_blank" rel="nofollow"><i class="iconfont icon-bilibili"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+            <div class="page-title">
+    <ul>
+        <li><a href="/">首页</a></li>
+        
+        <li class="">
+            <a href="/categories/tech" data-name="技术">技术</a>
+        </li>
+        
+        <li class="">
+            <a href="/categories/live" data-name="生活">生活</a>
+        </li>
+        
+        <li class="">
+            <a href="/links/" data-name="友情链接">友链</a>
+        </li>
+        <li class="page-search">
+    <form id="search" class="search-form">
+        <label for="s" class="sr-only">请输入关键字</label>
+        <input class="search-field" type="text" name="s" class="text" placeholder="请输入关键字" />
+        <button type="submit" class="search-form-submit" title="搜索"><i class="fa fa-search"></i></button>
+    </form>
     <div class="ins-search">
     <div class="ins-search-mask"></div>
     <div class="ins-search-container">
@@ -868,377 +182,751 @@ pre .xml .cdata {
     window.INSIGHT_CONFIG = INSIGHT_CONFIG;
 })(window);
 </script>
-    <!-- <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2019 Moyi.ga(魔艺.咖)<br>
-      powered_by <a href="http://moyi.ga/" target="_blank">Hexo</a>
+</li>
+
+    </ul>
+</div>
+<div class="main-inner">
+    <article class="post" itemscope itemtype="http://www.hojun.cn">
+        <div class="post-header">
+            <div class="post-author clearfix">
+                <a class="avatar fleft" href="/about/hojun.html" target="_blank">
+                    <img width="48" src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvgy1ftand2qurdj303c03cdfv.jpg" alt="avatar"/>
+                </a>
+                <p><span class="label">作者</span>
+                    <span>hojun</span>
+                    <span title="最后编辑于2017-07-02">2017-07-02</span>
+                </p>
+                <p>一个好奇的人</p>
+            </div>
+            <h2 class="post-title">给hexo的jsimple主题添加代码高亮</h2>
+            <div class="post-meta">
+                本文总共8123个字 | 您是第<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>位看到它们的小伙伴
+            </div>
+        </div>
+        <div class="post-content markdown-body">
+            <p>周末在家无所事事，想起来博客代码块的高亮支持不是很好，于是根据作者推荐的<a href="https://github.com/iTimeTraveler/hexo-theme-hipaper">hipaper</a>去get。<br>对比了Hipaper和Jsimple老半天有几点发现。</p>
+<ol>
+<li>Jsimple使用ejs模板</li>
+<li>Hipaper使用ejs模板，css采用stylus框架。<small>&lt;之前只听说过less和sass,又涨姿势了<del>~</del>&gt;<small></li>
+</ol>
+<p>在浏览器端f12审核元素发现两个模板生成的html元素有些区别。然后就花了大量时间去找hexo是怎么把代码块自动解析成对应的html代码的。<br>后来在hexo群里求助得知由hexo自带highlight插件生成。这位热心的<a href="https://github.com/liaobinbin">大神</a>顺手帮我搞了高亮的css代码，之后也在<a href="https://github.com/tangkunyin/hexo-theme-jsimple">jsimple</a>仓库pr了代码。<br>得到css后依据自己的博客进行些小改动，添加了night版。然后愉快的给博客添加了代码高亮。<br><font color="red">注意配置文件这里：<font></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">highlight:</span><br><span class="line">  enable: true //开启高亮</span><br><span class="line">  line_number: true //显示行号</span><br><span class="line">  auto_detect: false</span><br><span class="line">  tab_replace:</span><br></pre></td></tr></table></figure>
+
+<p>修改之后生效需要执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//清除缓存文件 (db.json) 和已生成的静态文件 (public)。</span><br><span class="line">hexo clean</span><br><span class="line">//重新生成</span><br><span class="line">hexo g</span><br></pre></td></tr></table></figure>
+
+<p>这里贴出代码仅供参考：<font color="#d35400">自己改了些东西，不知道适不适用<font></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-tag">code</span>,<span class="selector-class">.markdown-body</span> <span class="selector-tag">tt</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attribute">padding</span>:<span class="number">0</span>;<span class="attribute">padding-top</span>:.<span class="number">2em</span>;<span class="attribute">padding-bottom</span>:.<span class="number">2em</span>;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">font-size</span>:<span class="number">85%</span>;<span class="attribute">background-color</span>:<span class="built_in">rgba</span>(0,0,0,0.04);<span class="attribute">border-radius</span>:<span class="number">3px</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-tag">code</span><span class="selector-pseudo">::before</span>,<span class="selector-class">.markdown-body</span> <span class="selector-tag">code</span><span class="selector-pseudo">::after</span>,<span class="selector-class">.markdown-body</span> <span class="selector-tag">tt</span><span class="selector-pseudo">::before</span>,<span class="selector-class">.markdown-body</span> <span class="selector-tag">tt</span><span class="selector-pseudo">::after</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attribute">letter-spacing</span>:-<span class="number">0.2em</span>;<span class="attribute">content</span>:<span class="string">"\00a0"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-tag">code</span> <span class="selector-tag">br</span>,<span class="selector-class">.markdown-body</span> <span class="selector-tag">tt</span> <span class="selector-tag">br</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attribute">display</span>:none</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-tag">del</span> <span class="selector-tag">code</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attribute">text-decoration</span>:inherit</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-tag">pre</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attribute">word-wrap</span>:normal</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-tag">pre</span>&gt;<span class="selector-tag">code</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attribute">padding</span>:<span class="number">0</span>;<span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">font-size</span>:<span class="number">100%</span>;<span class="attribute">word-break</span>:normal;<span class="attribute">white-space</span>:pre;<span class="attribute">background</span>:transparent;<span class="attribute">border</span>:<span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.highlight</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attribute">margin-bottom</span>:<span class="number">16px</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.highlight</span> <span class="selector-tag">pre</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attribute">margin-bottom</span>:<span class="number">0</span>;<span class="attribute">word-break</span>:normal</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-tag">pre</span>,</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.highlight</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="number">#f8f8f8</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">15px</span> <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">15px</span> <span class="number">20px</span>;</span><br><span class="line">  <span class="attribute">border-style</span>: solid;</span><br><span class="line">  <span class="attribute">border-color</span>: <span class="number">#eef1f8</span>;</span><br><span class="line">  <span class="attribute">border-width</span>: <span class="number">1px</span> <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">overflow</span>: auto;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#4d4d4c</span>;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">22.400000000000002px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.highlight</span> <span class="selector-class">.gutter</span> <span class="selector-tag">pre</span>,</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.gist</span> <span class="selector-class">.gist-file</span> <span class="selector-class">.gist-data</span> <span class="selector-class">.line-numbers</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#666</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">0.85em</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-tag">pre</span>,</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-tag">code</span> &#123;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">"Source Code Pro"</span>, Consolas, Monaco, Menlo, Consolas, monospace;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-tag">code</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(208,211,248,0.2);</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#333</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">0.3em</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-tag">pre</span> <span class="selector-tag">code</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: none;</span><br><span class="line">  <span class="attribute">text-shadow</span>: none;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.highlight</span> <span class="selector-tag">pre</span> &#123;</span><br><span class="line">  <span class="attribute">border</span>: none;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.highlight</span> <span class="selector-tag">table</span> &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">width</span>: auto;</span><br><span class="line">  <span class="attribute">border</span>: none;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.highlight</span> <span class="selector-tag">td</span> &#123;</span><br><span class="line">  <span class="attribute">border</span>: none;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.highlight</span> <span class="selector-tag">figcaption</span> &#123;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">0.85em</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#8e908c</span>;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">1em</span>;</span><br><span class="line">  <span class="attribute">margin-bottom</span>: <span class="number">1em</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.highlight</span> <span class="selector-tag">figcaption</span><span class="selector-pseudo">:before</span>,</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.highlight</span> <span class="selector-tag">figcaption</span><span class="selector-pseudo">:after</span> &#123;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">""</span>;</span><br><span class="line">  <span class="attribute">display</span>: table;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.highlight</span> <span class="selector-tag">figcaption</span><span class="selector-pseudo">:after</span> &#123;</span><br><span class="line">  <span class="attribute">clear</span>: both;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.highlight</span> <span class="selector-tag">figcaption</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">float</span>: right;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.highlight</span> <span class="selector-class">.gutter</span> <span class="selector-tag">pre</span> &#123;</span><br><span class="line">  <span class="attribute">text-align</span>: right;</span><br><span class="line">  <span class="attribute">padding-right</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.highlight</span> <span class="selector-class">.line</span> &#123;</span><br><span class="line">  <span class="comment">/*height: 22.400000000000002px;*/</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.highlight</span> <span class="selector-class">.line</span><span class="selector-class">.marked</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="number">#d6d6d6</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.gist</span> &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span> -<span class="number">20px</span>;</span><br><span class="line">  <span class="attribute">border-style</span>: solid;</span><br><span class="line">  <span class="attribute">border-color</span>: <span class="number">#eef1f8</span>;</span><br><span class="line">  <span class="attribute">border-width</span>: <span class="number">1px</span> <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="number">#f8f8f8</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">15px</span> <span class="number">20px</span> <span class="number">15px</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.gist</span> <span class="selector-class">.gist-file</span> &#123;</span><br><span class="line">  <span class="attribute">border</span>: none;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">"Source Code Pro"</span>, Consolas, Monaco, Menlo, Consolas, monospace;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.gist</span> <span class="selector-class">.gist-file</span> <span class="selector-class">.gist-data</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: none;</span><br><span class="line">  <span class="attribute">border</span>: none;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.gist</span> <span class="selector-class">.gist-file</span> <span class="selector-class">.gist-data</span> <span class="selector-class">.line-numbers</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: none;</span><br><span class="line">  <span class="attribute">border</span>: none;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">20px</span> <span class="number">0</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.gist</span> <span class="selector-class">.gist-file</span> <span class="selector-class">.gist-data</span> <span class="selector-class">.line-data</span> &#123;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span> <span class="meta">!important</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.gist</span> <span class="selector-class">.gist-file</span> <span class="selector-class">.highlight</span> &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">border</span>: none;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.gist</span> <span class="selector-class">.gist-file</span> <span class="selector-class">.gist-meta</span> &#123;</span><br><span class="line">  <span class="attribute">background</span>: <span class="number">#f8f8f8</span>;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#8e908c</span>;</span><br><span class="line">  <span class="attribute">font</span>: <span class="number">0.85em</span> -apple-system, <span class="string">"Arial"</span>, BlinkMacSystemFont, <span class="string">"Segoe UI"</span>, <span class="string">"Roboto"</span>, <span class="string">"Oxygen"</span>, <span class="string">"Ubuntu"</span>, <span class="string">"Cantarell"</span>, <span class="string">"Fira Sans"</span>, <span class="string">"Droid Sans"</span>, <span class="string">"Helvetica Neue"</span>, sans-serif;</span><br><span class="line">  <span class="attribute">text-shadow</span>: <span class="number">0</span> <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">margin-top</span>: <span class="number">1em</span>;</span><br><span class="line">  <span class="attribute">margin-left</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.gist</span> <span class="selector-class">.gist-file</span> <span class="selector-class">.gist-meta</span> <span class="selector-tag">a</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: color-link;</span><br><span class="line">  <span class="attribute">font-weight</span>: normal;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-class">.gist</span> <span class="selector-class">.gist-file</span> <span class="selector-class">.gist-meta</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">  <span class="attribute">text-decoration</span>: underline;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.comment</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.title</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#8e908c</span>; </span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.variable</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.attribute</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.tag</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.regexp</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.ruby</span> <span class="selector-class">.constant</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.xml</span> <span class="selector-class">.tag</span> <span class="selector-class">.title</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.xml</span> <span class="selector-class">.pi</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.xml</span> <span class="selector-class">.doctype</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.html</span> <span class="selector-class">.doctype</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.css</span> <span class="selector-class">.id</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.css</span> <span class="selector-class">.class</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.css</span> <span class="selector-class">.pseudo</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#c82829</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.number</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.preprocessor</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.built_in</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.literal</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.params</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.constant</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#fd971f</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.class</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.ruby</span> <span class="selector-class">.class</span> <span class="selector-class">.title</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.css</span> <span class="selector-class">.rules</span> <span class="selector-class">.attribute</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#718c00</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.string</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.value</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.inheritance</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.header</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.ruby</span> <span class="selector-class">.symbol</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.xml</span> <span class="selector-class">.cdata</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#718c00</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.css</span> <span class="selector-class">.hexcolor</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#3e999f</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.function</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.python</span> <span class="selector-class">.decorator</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.python</span> <span class="selector-class">.title</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.ruby</span> <span class="selector-class">.function</span> <span class="selector-class">.title</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.ruby</span> <span class="selector-class">.title</span> <span class="selector-class">.keyword</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.perl</span> <span class="selector-class">.sub</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.javascript</span> <span class="selector-class">.title</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.coffeescript</span> <span class="selector-class">.title</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#4271ae</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.keyword</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.javascript</span> <span class="selector-class">.function</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#8959a8</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#525252</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.function</span> <span class="selector-class">.keyword</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.constant</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#0092db</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.keyword</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.attribute</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#f92672</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.number</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.literal</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#ae81ff</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.tag</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.tag</span> <span class="selector-class">.title</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.change</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.winutils</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.flow</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.lisp</span> <span class="selector-class">.title</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.clojure</span> <span class="selector-class">.built_in</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.nginx</span> <span class="selector-class">.title</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.tex</span> <span class="selector-class">.special</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#2973b7</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.symbol</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.symbol</span> <span class="selector-class">.string</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.value</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.regexp</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#42b983</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.title</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#a6e22e</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.tag</span> <span class="selector-class">.value</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.string</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.subst</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.haskell</span> <span class="selector-class">.type</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.preprocessor</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.ruby</span> <span class="selector-class">.class</span> <span class="selector-class">.parent</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.built_in</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.sql</span> <span class="selector-class">.aggregate</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.django</span> <span class="selector-class">.template_tag</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.django</span> <span class="selector-class">.variable</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.smalltalk</span> <span class="selector-class">.class</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.javadoc</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.django</span> <span class="selector-class">.filter</span> <span class="selector-class">.argument</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.smalltalk</span> <span class="selector-class">.localvars</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.smalltalk</span> <span class="selector-class">.array</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.attr_selector</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.pseudo</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.addition</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.stream</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.envvar</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.apache</span> <span class="selector-class">.tag</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.apache</span> <span class="selector-class">.cbracket</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.tex</span> <span class="selector-class">.command</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.prompt</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#42b983</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.comment</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.java</span> <span class="selector-class">.annotation</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.python</span> <span class="selector-class">.decorator</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.template_comment</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.pi</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.doctype</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.shebang</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.apache</span> <span class="selector-class">.sqbracket</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.tex</span> <span class="selector-class">.formula</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#b3b3b3</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.deletion</span> &#123;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#ba4545</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.coffeescript</span> <span class="selector-class">.javascript</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.javascript</span> <span class="selector-class">.xml</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.tex</span> <span class="selector-class">.formula</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.xml</span> <span class="selector-class">.javascript</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.xml</span> <span class="selector-class">.vbscript</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.xml</span> <span class="selector-class">.css</span>,</span><br><span class="line"><span class="selector-tag">pre</span> <span class="selector-class">.xml</span> <span class="selector-class">.cdata</span> &#123;</span><br><span class="line">  <span class="attribute">opacity</span>: <span class="number">0.5</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.night-mode</span> <span class="selector-class">.markdown-body</span> <span class="selector-tag">h2</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attribute">border-color</span>:<span class="number">#2f2f2f</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.night-mode</span> <span class="selector-class">.markdown-body</span> <span class="selector-tag">hr</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attribute">background-color</span>:<span class="number">#2f2f2f</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.night-mode</span> <span class="selector-class">.markdown-body</span>,<span class="selector-class">.night-mode</span> <span class="selector-class">.markdown-body</span> <span class="selector-tag">p</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attribute">color</span>:<span class="number">#999</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.night-mode</span> <span class="selector-class">.markdown-body</span> <span class="selector-tag">a</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attribute">color</span>:<span class="number">#3dbcf5</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.night-mode</span> <span class="selector-class">.markdown-body</span> <span class="selector-tag">a</span><span class="selector-pseudo">:hover</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attribute">color</span>:<span class="number">#4094c7</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.markdown-body</span> <span class="selector-tag">figure</span>,<span class="selector-class">.markdown-body</span> <span class="selector-tag">pre</span>,<span class="selector-class">.markdown-body</span> <span class="selector-tag">code</span>,<span class="selector-class">.markdown-body</span> <span class="selector-tag">tr</span>,<span class="selector-class">.markdown-body</span> <span class="selector-tag">table</span>,<span class="selector-class">.markdown-body</span> <span class="selector-tag">tbody</span>,<span class="selector-class">.markdown-body</span> <span class="selector-tag">table</span> <span class="selector-tag">td</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attribute">background-color</span>:<span class="number">#f8f8f8</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.night-mode</span> <span class="selector-tag">figure</span>,<span class="selector-class">.night-mode</span> <span class="selector-tag">pre</span>,<span class="selector-class">.night-mode</span> <span class="selector-tag">code</span>,<span class="selector-class">.night-mode</span> <span class="selector-tag">blockquote</span>,<span class="selector-class">.night-mode</span> <span class="selector-tag">tr</span>,<span class="selector-class">.night-mode</span> <span class="selector-tag">table</span>,<span class="selector-class">.night-mode</span> <span class="selector-tag">tbody</span>,<span class="selector-class">.night-mode</span> <span class="selector-tag">table</span> <span class="selector-tag">td</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="attribute">background-color</span>:<span class="number">#555</span><span class="meta">!important</span>;<span class="attribute">border-color</span>:<span class="number">#555</span><span class="meta">!important</span>;<span class="attribute">color</span>:<span class="number">#fff</span><span class="meta">!important</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.night-mode</span> <span class="selector-tag">blockquote</span>&#123;</span><br><span class="line">    <span class="attribute">border-color</span>:<span class="number">#ddd</span><span class="meta">!important</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <p style="text-align: center;">希望这篇文章能给你带来知识和乐趣，喜欢博主的文章可以加博主好友哦<img class="owoemoji" src="/OwO/img/脸红.png"></p>
+            <p style="text-align: center;">有好的文章也可以向博主投稿哦<img class="owoemoji" src="/OwO/img/期待.png"></p>
+        </div>
+        <div style="text-align:center" class="social-share" data-disabled="facebook, twitter, google"></div>
+        <p style="text-align: center;">您的喜欢是作者写作最大的动力<img class="owoemoji" src="/OwO/img/爱心.png"></p>
+        
+
+        <div class="post-tool">
+            <a class="btn-weixin-tip" href="javascript:void(0);">
+                <i class="fa fa-mobile" aria-hidden="true"></i> 打赏支持
+            </a>
+        </div>
+
+        <p style="text-align: center;"><img class="owoemoji" src="/OwO/img/太开心.png">QQ群和公众号
+        <p style="text-align: center;"><img height="200px" src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvly1g22ie1sr2jj306m06ywef.jpg"><img src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvly1g1ksxfx94qj309k09k3yg.jpg"></p>
+        
+        <div class="post-series">hexo折腾-系列文章：
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    <li><a href="/2017/07/01/给博客添加自己的域名/">给博客添加个人域名</a></li>
+                
+            
+                
+                    <li><a href="/2017/07/02/给hexo的jsimple主题添加代码高亮/">给hexo的jsimple主题添加代码高亮</a></li>
+                
+            
+                
+                    <li><a href="/2017/07/03/给博客添加网易云跟帖评论/">给博客添加网易云跟帖评论</a></li>
+                
+            
+                
+                    <li><a href="/2017/07/04/给博客添加https支持/">给博客添加https支持</a></li>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    <li><a href="/2017/07/09/博客添加gitment评论/">博客添加gitment评论</a></li>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    <li><a href="/2017/09/13/给博客添加APlayer音乐播放器/">给博客添加APlayer音乐播放器^-^</a></li>
+                
+            
+                
+            
+                
+            
+                
+                    <li><a href="/2017/10/23/hexo-使用说明/">hexo 使用说明</a></li>
+                
+            
+                
+                    <li><a href="/2017/11/15/Lozad-js学习使用/">Lozad.js学习使用</a></li>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    <li><a href="/2018/01/10/snowfall-jquery-js实现樱花飘落效果/">snowfall.jquery.js实现樱花飘落效果</a></li>
+                
+            
+                
+            
+                
+            
+                
+                    <li><a href="/2018/01/25/Hexo博客备份—妈妈再也不用担心你使用hexo写博客/">Hexo博客备份—妈妈再也不用担心你使用hexo写博客</a></li>
+                
+            
+                
+                    <li><a href="/2018/01/25/github博客迁移至coding并提交百度收录/">github博客迁移至coding并提交百度收录</a></li>
+                
+            
+                
+            
+                
+                    <li><a href="/2018/02/05/博客小人/">博客小人</a></li>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    <li><a href="/2018/02/19/live2d-看板娘小埋/">live2d-看板娘小埋</a></li>
+                
+            
+                
+            
+                
+                    <li><a href="/2018/03/07/使用disqus评论/">使用disqus评论</a></li>
+                
+            
+                
+                    <li><a href="/2018/03/14/anime-js实现logo动画/">anime.js实现logo动画</a></li>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    <li><a href="/2018/04/22/OwO-可爱的js表情符号插件/">OwO-可爱的js表情符号插件</a></li>
+                
+            
+                
+            
+                
+                    <li><a href="/2018/04/24/给博客添加图集展示/">给博客添加图集展示</a></li>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    <li><a href="/2018/06/04/评论系统之来必力/">评论系统之来必力</a></li>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    <li><a href="/2018/06/17/添加系列文章功能/">添加系列文章功能</a></li>
+                
+            
+                
+                    <li><a href="/2018/06/18/给Hexo博客添加Mathjax数学公式支持/">给Hexo博客添加Mathjax数学公式支持</a></li>
+                
+            
+                
+                    <li><a href="/2018/06/23/给博客添加上一篇下一篇功能/">给博客添加上一篇下一篇功能</a></li>
+                
+            
+                
+                    <li><a href="/2018/07/03/给博客添加文章目录/">给博客添加文章目录</a></li>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    <li><a href="/2018/08/07/hexo评论系统之valine快速使用/">hexo评论系统之valine快速使用</a></li>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    <li><a href="/2018/08/13/快速开发属于自己的APP-FusionApp/">快速开发属于自己的APP-FusionApp</a></li>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    <li><a href="/2018/08/25/miccall主题及H5站点推荐/">miccall主题及html5up站点推荐</a></li>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+                    <li><a href="/2018/08/28/CSS-SVG路径描边特效/">CSS+SVG路径描边特效</a></li>
+                
+            
+                
+                    <li><a href="/2018/08/30/网页看板娘-Live2d蕾姆/">网页看板娘-Live2d蕾姆</a></li>
+                
+            
+                
+            
+                
+            
+                
+                    <li><a href="/2018/09/04/还没好图床的小伙伴看过来，微博是个好图床！/">还没好图床的小伙伴看过来，微博是个好图床！</a></li>
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+                
+            
+        </div>
+        
+        
+        <div class="post-tags">标签：
+            
+            <a href="/tags/blog/">blog</a>
+            
+        </div>
+        
+    </article>
+    <div class="post-nav">
+        
+        <div class="post-nav-prev post-nav-item">
+            <a href="/2017/07/03/给博客添加网易云跟帖评论/" >给博客添加网易云跟帖评论<i class="fa fa-chevron-left"></i></a>
+        </div>
+        
+        
+        <div class="post-nav-next post-nav-item">
+            <a href="/2017/07/01/给博客添加自己的域名/" >给博客添加个人域名<i class="fa fa-chevron-right"></i></a>
+        </div>
+        
     </div>
-  </div>
-</footer> -->
-<footer id="colophon" class="site-footer" role="contentinfo">
-  <div class="site-info">
-    <div class="footertext">
-      <div class="img-preload">
-        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/wordpress-rotating-ball-o.svg">
-        <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/other/disqus-preloader.svg">
-      </div>
-      <p style="color: #666666;">&copy 2019</p>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/honjun/hexo-helper-tocbot/css/tocbot.css"><style>
+    .js-toc {
+        width: 200px;
+        height: auto;
+        z-index: 98;
+        background-color: rgba(255,255,255,0);
+        transform: translateX(0);
+        right: calc((100% - 950px - 250px) / 2);
+        top: 60px;
+        position: fixed;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+  </style><script src="https://cdn.jsdelivr.net/gh/honjun/hexo-helper-tocbot/js/tocbot.js"></script><div class="js-toc"></div><script type="text/javascript">
+    tocbot.init({"contentSelector":".post-content","scrollSmooth":true,"headingSelector":"h1, h2, h3, h4, h5","headingsOffset":45,"scrollSmoothOffset":-45,"tocSelector":".js-toc","ignoreSelector":".js-toc-ignore","linkClass":"toc-link","extraLinkClasses":"","activeLinkClass":"is-active-link","listClass":"toc-list","extraListClasses":"","isCollapsedClass":"is-collapsed","collapsibleClass":"is-collapsible","listItemClass":"toc-list-item","activeListItemClass":"is-active-li","collapseDepth":0,"scrollSmoothDuration":420,"throttleTimeout":50,"positionFixedSelector":null,"positionFixedClass":"is-position-fixed","fixedSidebarOffset":"auto","includeHtml":false,"onClick":false,"orderedList":true,"scrollContainer":null})
+  </script>
+    <!-- 
+<aside id="article-toc" role="navigation" class="fixed">
+    <div id="article-toc-inner">
+        <strong class="sidebar-title">
+        目录</strong>
+        
     </div>
-    <div class="footer-device">
-    <p style="font-family: 'Ubuntu', sans-serif;">
-        <span style="color: #b9b9b9;">Moyi.ga(魔艺.咖) <a href="https://moyi.ga" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">了</a> <i class="iconfont icon-sakura rotating" style="color: #ffc0cb;display:inline-block"></i> 呵呵 <a href="https://2heng.xin/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(255, 142, 142, 0.1);">切掉</a>你<a href="https://moyi.ga/" target="_blank" style="color: #b9b9b9;;text-decoration: underline dotted rgba(0, 0, 0, .1);">mayi.ga</a>, 终于消掉你了</a>
-        </span>
-      </p>
-    </div>
-  </div><!-- .site-info -->
-</footer>
+</aside>
+ -->
+     
 
 
 
-<!-- <script src="/js/tocbot.js"></script> -->
-<script type="text/javascript" src="/js/lib.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
-<script type="text/javascript" src="/js/InsightSearch.js"></script>
-<script type="text/javascript" src="/js/jquery.fancybox.min.js"></script>
-<script type="text/javascript" src="/js/zoom.min.js"></script>
-<script type="text/javascript" src="/js/sakura-app.js"></script>
+
+
+
+
+
 <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-<script src='//unpkg.com/valine@1.3.4/dist/Valine.min.js'></script>
+<script src='//unpkg.com/valine/dist/Valine.min.js'></script>
+<div id="vcomments"></div>
+<!-- <span id="/2017/07/02/给hexo的jsimple主题添加代码高亮/" class="leancloud-visitors" data-flag-title="文章阅读量统计">
+    <span class="post-meta-item-text">阅读量 </span>
+    <span class="leancloud-visitors-count">1000000</span>
+</span> -->
+<script>
+  new Valine({
+    el: '#vcomments',
+    appId: "GyC3NzMvd0hT9Yyd2hYIC0MN-gzGzoHsz",
+    appKey: "mgOpfzbkHYqU92CV4IDlAUHQ",
+    // visitor: true
+  })
+</script>
+
+
+
+
+    
+    
+    
+        <div class="adsense_post_left">
+            
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:160px;height:600px"
+         data-ad-client="ca-pub-5634033670687375"
+         data-ad-slot="9797686907"></ins>
+
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+        </div>
+        <div class="adsense_post_right">
+            
+    <ins class="adsbygoogle"
+         style="display:inline-block;width:160px;height:600px"
+         data-ad-client="ca-pub-5634033670687375"
+         data-ad-slot="7335051380"></ins>
+
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+        </div>
+        
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-5634033670687375"
+         data-ad-slot="8296902977"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+    
+
+
+</div>
 <!-- 不蒜子 网页计数器 -->
-<script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.4.2/tocbot.min.js"></script> -->
-<script type="text/javascript">
-/* <![CDATA[ */
-if (/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
-  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.3/","name":"The Pet Girl of Sakurasou.mp4","live":"close"},"windowheight":"fixed","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
-} else {
-  var Poi = {"pjax":"1","movies":{"url": "https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.3/","name":"The Pet Girl of Sakurasou.mp4","live":"open"},"windowheight":"auto","codelamp":"close","ajaxurl":"","order":"asc","formpostion":"bottom"};
-}
-/* ]]> */
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 
-</script>
-<script>
-$(document).ready(function() {
-  if ($(".toc").length > 0 && document.body.clientWidth > 1200) {
-    if ($(".pattern-center").length > 0) { //有图的情况
-      tocbot.init({
-          // Where to render the table of contents.
-          tocSelector: '.toc', // 放置目录的容器
-          // Where to grab the headings to build the table of contents.
-          contentSelector: '.entry-content', // 正文内容所在
-          // Which headings to grab inside of the contentSelector element.
-          scrollSmooth: true,
-          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
-          headingsOffset: -400,
-          scrollSmoothOffset: -85
-      });
-    } else {
-      tocbot.init({
-          // Where to render the table of contents.
-          tocSelector: '.toc', // 放置目录的容器
-          // Where to grab the headings to build the table of contents.
-          contentSelector: '.entry-content', // 正文内容所在
-          // Which headings to grab inside of the contentSelector element.
-          scrollSmooth: true,
-          headingSelector: 'h1, h2, h3, h4, h5', // 需要索引的标题级别
-          headingsOffset: -85,
-          scrollSmoothOffset: -85
-      });
-    }
-    var offsetTop = $('.toc').offset().top - 95;
-    window.onscroll = function() {
-      var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-      if (scrollTop >= offsetTop) {
-        $('.toc').addClass('toc-fixed');
-      } else {
-        $('.toc').removeClass('toc-fixed');
-      }
-    }
-  }
-});
-</script>
+        </div><!-- end #main-->
+    </div><!-- end #body -->
+    <footer class="footer">
+    <div class="footer-inner">
+        <!-- <a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=0e48d2d6785c4b110daa7e450102de5ebe028e86bde31a428399911eb53bd450"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="简书散人交流群" title="简书散人交流群"></a> -->
+        <p id="hitokoto">:D 获取中...</p>
+        <script>
+          var xhr = new XMLHttpRequest();
+          xhr.open('get', 'https://v1.hitokoto.cn');
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+              var data = JSON.parse(xhr.responseText);
+              var hitokoto = document.getElementById('hitokoto');
+              hitokoto.innerText = data.hitokoto + '  ——' + data.from;
+            }
+          }
+          xhr.send();
+        </script>
+        <p>
+            <a href="/about/hojun.html"  title="关于作者">关于作者</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/help" title="关于" >关于</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+            <a href="/archives" title="归档">归档</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
 
-    <div class="openNav no-select" style="height: 50px;">
-      <div class="iconflat no-select" style="width: 50px; height: 50px;">
-        <div class="icon"></div>
-      </div>
-      <div class="site-branding search-form-submit">
-        <i class="iconfont js-toggle-search iconsearch icon-search"></i>
-      </div>
+            <!-- 自定义链接 -->
+            <a href="/links" title="友情链接">友情链接</a>&nbsp;&nbsp<em>·</em>&nbsp;&nbsp
+        </p>
+        <p>
+            本站点采用<a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>，已建立<a href="/timeline" id="siteBuildingTime"></a>天<br/>
+            ©2017 基于<a href="http://hexo.io" target="_blank">Hexo</a>搭建
+            ，主题&nbsp<a href="https://github.com/tangkunyin/hexo-theme-jsimple" target="_blank">JSimple</a>
+            ，Hosted by <a href="https://github.com/" target="_blank">Github Pages</a>，Hosted by <a href="https://pages.coding.me" target="_blank">Coding Pages</a>
+        </p>
+        <p>从这里可以访问到我</p>
+        <p>
+          <!-- <a href="https://shop206822225.taobao.com/index.htm"><img style="margin:5px;width: 100px; height: 100px;" src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvly1fwhbrhm111j30ia0iak0l.jpg" alt=""></a> -->
+          <!-- <a href="javascript:"><img style="margin:5px;width: 100px; height: 100px;" src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvly1g1ksxfx94qj309k09k3yg.jpg" alt=""></a> -->
+          <a href="https://author.baidu.com/home/1594654793276567"><img style="margin:5px;width: 100px; height: 100px;" src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvgy1ftpw8983bjj308c08c77h.jpg" alt=""></a>
+          <a href="https://www.jianshu.com/u/e8537ffe74d6"><img style="margin:5px;width: 100px; height: 100px;" src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvgy1ftpw8a5u1lj308c08ctas.jpg" alt=""></a>
+          <a href="https://www.toutiao.com/c/user/71618825563/#mid=1595095174687757"><img style="margin:5px;width: 100px; height: 100px;" src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvgy1ftpw8aqarej308c08cadu.jpg" alt=""></a>
+          <a href="https://www.hojun.cn"><img style="margin:5px;width: 100px; height: 100px;" src="https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvgy1ftpw89p4kaj308c08c40a.jpg" alt=""></a>
+        </p>
+        <p id="cnzz"></p>
     </div>
-  </section>
-  <div id="mo-nav" class="">
-  <div class="m-avatar">
-    <img src="https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/custom/avatar.jpg">
-  </div>
-  <p style="text-align: center; color: #333; font-weight: 900; font-family: 'Ubuntu', sans-serif; letter-spacing: 1.5px">Moyi.ga(魔艺.咖)Moyi.ga(魔艺.咖)</p>
-  <p style="text-align: center; word-spacing: 20px;">
-    
-      
-        <a href="http://qr02.cn/BHKrgz" class="fa fa-github" target="_blank" style="color: #333; margin-left:20px"></a>
-      
-        <a href="https://weibo.com/bznd" class="fa fa-weibo" target="_blank" style="color: #dd4b39; margin-left:20px"></a>
-      
-        <a href="https://wpa.qq.com/msgrd?v=3&uin=123705587&site=qq&menu=yes" class="fa fa-qq" target="_blank" style="color: #25c6fe; margin-left:20px"></a>
-      
-    
-  </p>
-  <ul id="menu-new-1" class="menu">
-    
-      <li>
-        <a href="/">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-fort-awesome faa-shake" aria-hidden="true"></i>
-            首页
-          </span>
-        </a>
-        
-      </li>
-    
-      <li>
-        <a href="/archives">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-archive faa-shake" aria-hidden="true"></i>
-            归档
-          </span>
-        </a>
-        
-          <ul class="sub-menu">
-            
-              <li>
-                <a href="/categories/技术/">
-                  <i class="fa fa-code" aria-hidden="true"></i>
-                  技术
-                </a>
-              </li>
-            
-              <li>
-                <a href="/categories/生活/">
-                  <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                  生活
-                </a>
-              </li>
-            
-              <li>
-                <a href="/categories/资源/">
-                  <i class="fa fa-cloud-download" aria-hidden="true"></i>
-                  资源
-                </a>
-              </li>
-            
-              <li>
-                <a href="/categories/随想/">
-                  <i class="fa fa-commenting-o" aria-hidden="true"></i>
-                  随想
-                </a>
-              </li>
-            
-              <li>
-                <a href="/categories/转载/">
-                  <i class="fa fa-book" aria-hidden="true"></i>
-                  转载
-                </a>
-              </li>
-            
-          </ul>
-        
-      </li>
-    
-      <li>
-        <a href="javascript:;">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-list-ul faa-vertical" aria-hidden="true"></i>
-            娱乐
-          </span>
-        </a>
-        
-          <ul class="sub-menu">
-            
-              <li>
-                <a href="/tags/悦读/">
-                  <i class="fa fa-th-list faa-bounce" aria-hidden="true"></i>
-                  影音
-                </a>
-              </li>
-            
-              <li>
-                <a href="/bangumi/">
-                  <i class="fa fa-film faa-vertical" aria-hidden="true"></i>
-                  图文
-                </a>
-              </li>
-            
-              <li>
-                <a href="/music/">
-                  <i class="fa fa-headphones" aria-hidden="true"></i>
-                  消遣
-                </a>
-              </li>
-            
-              <li>
-                <a href="/tags/图集/">
-                  <i class="fa fa-photo" aria-hidden="true"></i>
-                  游戏
-                </a>
-              </li>
-            
-          </ul>
-        
-      </li>
-    
-      <li>
-        <a href="/comment/">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-pencil-square-o faa-tada" aria-hidden="true"></i>
-            留言板
-          </span>
-        </a>
-        
-      </li>
-    
-      <li>
-        <a href="/links/">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-link faa-shake" aria-hidden="true"></i>
-            友人帐
-          </span>
-        </a>
-        
-      </li>
-    
-      <li>
-        <a href="/donate/">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-heart faa-pulse" aria-hidden="true"></i>
-            赞赏
-          </span>
-        </a>
-        
-      </li>
-    
-      <li>
-        <a href="/">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-leaf faa-wrench" aria-hidden="true"></i>
-            关于
-          </span>
-        </a>
-        
-          <ul class="sub-menu">
-            
-              <li>
-                <a href="/about/">
-                  <i class="fa fa-meetup" aria-hidden="true"></i>
-                  我？
-                </a>
-              </li>
-            
-              <li>
-                <a href="/theme-sakura/">
-                  <i class="fa iconfont icon-sakura" aria-hidden="true"></i>
-                  主题
-                </a>
-              </li>
-            
-              <li>
-                <a href="/lab/">
-                  <i class="fa fa-cogs" aria-hidden="true"></i>
-                  Lab
-                </a>
-              </li>
-            
-          </ul>
-        
-      </li>
-    
-      <li>
-        <a href="/client/">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-android faa-vertical" aria-hidden="true"></i>
-            客户端
-          </span>
-        </a>
-        
-      </li>
-    
-      <li>
-        <a href="/atom.xml">
-          <span class="faa-parent animated-hover">
-            <i class="fa  fa-rss faa-pulse" aria-hidden="true"></i>
-            RSS
-          </span>
-        </a>
-        
-      </li>
-    
-  </ul>
-  <p style="text-align: center; font-size: 13px; color: #b9b9b9;">&copy 2019 hexo-sakura</p>
-</div>
-<button onclick="topFunction()" class="mobile-cd-top" id="moblieGoTop" title="Go to top" style="display: none;"><i class="fa fa-chevron-up" aria-hidden="true"></i></button>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.css">
-<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10/dist/APlayer.min.js"></script>
-<style>
-  .aplayer .aplayer-lrc {
-    height: 35px;
-  }
-  .aplayer .aplayer-lrc p{
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 18px !important;
-  }
-  .aplayer .aplayer-lrc p.aplayer-lrc-current{
-    color: #FF1493;
-  }
-  .aplayer.aplayer-narrow .aplayer-body{
-    left: -66px !important;
-  }
-  .aplayer.aplayer-fixed .aplayer-lrc {
-    display: none;
-  }
-  .aplayer .aplayer-lrc.aplayer-lrc-hide {
-      display:none !important;
-  }
-  .aplayer.aplayer-fixed .lrc-show {
-    display: block;
-    background: rgba(255, 255, 255, 0.8);
-  }
-</style>
-<div class="aplayer"
-
-    data-id="2893827247"
-
-    data-server="netease"
-
-    data-type="playlist"
-
-    data-fixed="true"
-
-    data-autoplay="false"
-
-    data-loop="all"
-
-    data-order="random"
-
-    data-preload="auto"
-
-    data-volume="0.7"
-
-    data-mutex="true"
-
-</div>
-<script src="https://cdn.jsdelivr.net/npm/meting@1.2/dist/Meting.min.js"></script>
+</footer>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/lozad.js"></script>
+<script src="/js/jquery.share.min.js"></script>
+<script src="/js/CodeLineHeight.js"></script>
+<script src="/js/activate-power-mode.js"></script>
+<script src="/js/xiaomai.js"></script>
+<script src="/js/zoom.min.js"></script>
+<script src="/js/jquery.fancybox.min.js"></script>
+<script src="/js/InsightSearch.js"></script>
+<script src="/js/SimpleCore.js"></script>
+<!-- <script src="/js/loading.js"></script> -->
+<!-- <script src="/js/APlayer.js"></script> -->
+<!-- <script src="/js/aplayerdemo.js"></script> -->
 <script>
-  $(function(){
-    $('body').on('click', '.aplayer', function(){
-      if($('.aplayer-button').hasClass('aplayer-play')) {
-        $('.aplayer-lrc').removeClass('lrc-show');
-      } else {
-        $('.aplayer-lrc').addClass('lrc-show');
-      }
-    })
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?15e55c3816abfbc912d5cb0d9000a2d4";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+(function() {
+  var arr = new Array();
+  var $tags = $('.post-tags').children('a');
+  $tags.each(function() {
+    arr.push($(this).html())
+  })
+  $('.fancybox').fancybox({
+    padding: 0,
+    loop: false
   });
+})();
+</script>
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https'){
+      bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+    }
+    else{
+      bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+</div>
+<div id="spig" class="spig">
+    <div id="message"></div>
+    <div id="xiaomai"></div>
+</div>
+<div class="fixed-xm">
+    <img src="/images/xiaomai/xm.png">
+    <audio src="/images/xiaomai/xm.mp3" id="xm_audio" preload="auto" style="display:none;"></audio>
+</div>
+<div class="fixed-btn">
+    <a class="btn-gotop" href="javascript:"> <i class="fa fa-angle-up"></i></a>
+</div>
+<script>
+    $(function () {
+        SimpleCore.init({
+            buildingTime: '04/24/2017',
+            current: $('.post-tags').length > 0 ? 'post' : 'archive',
+            customImg: 'https://cdn.jsdelivr.net/gh/honjun/ImageHosting/sina/006bYVyvgy1ftpw8983bjj308c08c77h.jpg',
+            tipImg: 'https://cdn.jsdelivr.net/gh/honjun/cdn@1.6/img/custom/donate/WeChanSQ.jpg',
+        });
+        const observer = lozad();
+        observer.observe();
+
+        
+        //打字特效
+        POWERMODE.colorful = true; // make power mode colorful
+        POWERMODE.shake = false; // turn off shake
+        document.body.addEventListener('input', POWERMODE);
+
+        //为超链接加上target='_blank'属性  
+        $('a[href^="http"]').each(function() {  
+            $(this).attr('target', '_blank');  
+        });
+
+        // window.onblur = function (){ 
+        //     document.title = '快回来学习~'; 
+        // };
+        // window.onfocus = function (){ 
+        //     document.title = 'hojun-好少年光芒万丈！'; 
+        // }; 
+    });
 </script>
 </body>
 </html>

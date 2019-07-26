@@ -53,22 +53,22 @@
   color: #e78170;
 }
 .ins-search-container {
-  right: 50%;
+  left: 50% !important;
   top: 100px !important;
   z-index: 8001 !important;
   bottom: 100px !important;
   box-sizing: border-box !important;
-  width: 640px !important;
-  margin-right: -320px !important;
+  width: 540px !important;
+  margin-left: -270px !important;
   border-top: 2px solid color-theme !important;
 }
 @media screen and (max-width: 559px), screen and (max-height: 479px) {
   .ins-search-container {
     top: 0;
-    right: 0% !important;
-    margin: 0 !important;
-    width: 100% !important;
-    height: 80%;
+    left: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
     background: #f7f7f7;
   }
 }
